@@ -28,10 +28,10 @@ import (
 	"google.golang.org/grpc/status"
 	grpctest "google.golang.org/grpc/test/grpc_testing"
 
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/lib/netext"
-	grpcanytesting "github.com/uvite/u8/lib/testutils/httpmultibin/grpc_any_testing"
-	"github.com/uvite/u8/lib/types"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/lib/netext"
+	grpcanytesting "github.com/uvite/v9/lib/testutils/httpmultibin/grpc_any_testing"
+	"github.com/uvite/v9/lib/types"
 )
 
 // GetTLSClientConfig returns a TLS config that trusts the supplied

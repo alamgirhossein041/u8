@@ -5,7 +5,7 @@ import (
 
 	"golang.org/x/crypto/ocsp"
 
-	"github.com/uvite/u8/lib"
+	"github.com/uvite/v9/lib"
 )
 
 //nolint:golint

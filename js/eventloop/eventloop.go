@@ -6,7 +6,7 @@ import (
 	"sync"
 
 	"github.com/dop251/goja"
-	"github.com/uvite/u8/js/modules"
+	"github.com/uvite/v9/js/modules"
 )
 
 // EventLoop implements an event with

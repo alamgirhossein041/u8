@@ -11,11 +11,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/uvite/u8/js/common"
-	"github.com/uvite/u8/js/modulestest"
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/lib/testutils"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/js/common"
+	"github.com/uvite/v9/js/modulestest"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/lib/testutils"
+	"github.com/uvite/v9/metrics"
 )
 
 type addTestValue struct {

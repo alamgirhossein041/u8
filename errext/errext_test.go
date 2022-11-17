@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/uvite/u8/errext/exitcodes"
+	"github.com/uvite/v9/errext/exitcodes"
 )
 
 func assertHasHint(t *testing.T, err error, hint string) {

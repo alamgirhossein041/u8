@@ -12,8 +12,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/uvite/u8/js/common"
-	"github.com/uvite/u8/js/modules"
+	"github.com/uvite/v9/js/common"
+	"github.com/uvite/v9/js/modules"
 )
 
 type (

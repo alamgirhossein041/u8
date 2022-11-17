@@ -10,8 +10,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/uvite/u8/js/common"
-	"github.com/uvite/u8/js/modulestest"
+	"github.com/uvite/v9/js/common"
+	"github.com/uvite/v9/js/modulestest"
 )
 
 func makeRuntime(t *testing.T) *goja.Runtime {

@@ -9,11 +9,9 @@ import (
 	"time"
 
 	"github.com/sirupsen/logrus"
-	"gopkg.in/guregu/null.v3"
-
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/lib/types"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/lib/types"
+	"github.com/uvite/v9/metrics"
 )
 
 const rampingArrivalRateType = "ramping-arrival-rate"
@@ -182,7 +180,9 @@ func (varr *RampingArrivalRate) Init(ctx context.Context) error {
 // Lets look at a simple example - lets say we start with 2 events and the first stage is 5
 // seconds to 2 events/s and then we have a second stage for 5 second that goes up to 3 events
 // (using small numbers because ... well it is easier :D). This will look something like:
-//  ^
+//
+//	^
+//
 // 7|
 // 6|
 // 5|
@@ -190,8 +190,10 @@ func (varr *RampingArrivalRate) Init(ctx context.Context) error {
 // 3|       ,-+
 // 2|----+-'  |
 // 1|    |    |
-//  +----+----+---------------------------------->
-//  0s   5s   10s
+//
+//	+----+----+---------------------------------->
+//	0s   5s   10s
+//
 // TODO: bigger and more stages
 //
 // Now the question is when(where on the graph) does the first event happen? Well in this simple
@@ -297,6 +299,7 @@ func noNegativeSqrt(f float64) float64 {
 // time should iteration X begin) different, but keep everyhing else the same.
 // This will allow us to implement https://github.com/k6io/k6/issues/1386
 // and things like all of the TODOs below in one place only.
+//
 //nolint:funlen,cyclop
 func (varr RampingArrivalRate) Run(parentCtx context.Context, out chan<- metrics.SampleContainer) (err error) {
 	segment := varr.executionState.ExecutionTuple.Segment

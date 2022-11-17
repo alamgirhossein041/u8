@@ -12,10 +12,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"gopkg.in/guregu/null.v3"
-
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/lib/types"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/lib/types"
 )
 
 func TestRampingVUsConfigValidation(t *testing.T) {

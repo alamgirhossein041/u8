@@ -11,10 +11,11 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/metrics"
 )
 
 // TODO: remove globals and use some type of explicit dependency injection?
+//
 //nolint:gochecknoglobals
 var (
 	executorConfigTypesMutex   sync.RWMutex

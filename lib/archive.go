@@ -18,8 +18,8 @@ import (
 
 	"github.com/spf13/afero"
 
-	"github.com/uvite/u8/lib/fsext"
-	"github.com/uvite/u8/loader"
+	"github.com/uvite/v9/lib/fsext"
+	"github.com/uvite/v9/loader"
 )
 
 var (

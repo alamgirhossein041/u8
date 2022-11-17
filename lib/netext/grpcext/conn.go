@@ -10,8 +10,8 @@ import (
 	"strings"
 
 	"github.com/sirupsen/logrus"
-	"github.com/uvite/u8/js/modules"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/js/modules"
+	"github.com/uvite/v9/metrics"
 
 	protov1 "github.com/golang/protobuf/proto" //nolint:staticcheck,nolintlint // this is the old v1 version
 	"google.golang.org/grpc"

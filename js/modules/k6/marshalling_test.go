@@ -9,13 +9,13 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/uvite/u8/js"
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/lib/testutils"
-	"github.com/uvite/u8/lib/testutils/httpmultibin"
-	"github.com/uvite/u8/lib/types"
-	"github.com/uvite/u8/loader"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/js"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/lib/testutils"
+	"github.com/uvite/v9/lib/testutils/httpmultibin"
+	"github.com/uvite/v9/lib/types"
+	"github.com/uvite/v9/loader"
+	"github.com/uvite/v9/metrics"
 )
 
 func TestSetupDataMarshalling(t *testing.T) {

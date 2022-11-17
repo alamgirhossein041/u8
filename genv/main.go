@@ -3,15 +3,16 @@ package main
 import (
 	"context"
 	"fmt"
+	"gopkg.in/guregu/null.v3"
+
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/afero"
-	"github.com/stretchr/testify/require"
-	"github.com/uvite/u8/js"
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/loader"
-	"github.com/uvite/u8/metrics"
-	"gopkg.in/guregu/null.v3"
+	"github.com/uvite/v9/js"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/loader"
+	"github.com/uvite/v9/metrics"
 	"net/url"
+	"os"
 	"time"
 )
 
@@ -44,6 +45,7 @@ func getSimpleRunner(filename, data string, opts ...interface{}) (*js.Runner, er
 			BuiltinMetrics: builtinMetrics,
 			Registry:       registry,
 		},
+
 		&loader.SourceData{
 			URL:  &url.URL{Path: filename, Scheme: "file"},
 			Data: []byte(data),
@@ -52,20 +54,15 @@ func getSimpleRunner(filename, data string, opts ...interface{}) (*js.Runner, er
 	)
 }
 func main() {
+	logger := logrus.New()
 
-	r, err := getSimpleRunner("/script.js", `
-			var parseHTML = require("k6/html").parseHTML;
-
-			exports.options = { iterations: 1, vus: 1 };
-
-			exports.default = function() {
-				var doc = parseHTML("<html><div class='something'><h1 id='top'>Lorem ipsum</h1></div></html>");
-
-				var o = doc.find("div").get(0).attributes()
-
-				console.log(o)
-			};
-		`)
+	//data := []byte(`test contents`)
+	fs := afero.NewOsFs()
+	pwd, err := os.Getwd()
+	fmt.Println(pwd)
+	sourceData, err := loader.ReadSource(logger, "./4.js", pwd, map[string]afero.Fs{"file": fs}, nil)
+	fmt.Println(fmt.Sprint(sourceData.Data))
+	r, err := getSimpleRunner("/script.js", fmt.Sprint(sourceData.Data))
 
 	ch := make(chan metrics.SampleContainer, 1000)
 	initVU, err := r.NewVU(1, 1, ch)
@@ -80,7 +77,7 @@ func main() {
 
 	case err := <-errC:
 		cancel()
-		require.NoError(t, err)
+		fmt.Println(err)
 	}
 	fmt.Println(r, err)
 }

@@ -7,10 +7,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/uvite/u8/errext"
-	"github.com/uvite/u8/errext/exitcodes"
-	"github.com/uvite/u8/lib/types"
-	"gopkg.in/guregu/null.v3"
+	"github.com/uvite/v9/errext"
+	"github.com/uvite/v9/errext/exitcodes"
+	"github.com/uvite/v9/lib/types"
 )
 
 func TestNewThreshold(t *testing.T) {

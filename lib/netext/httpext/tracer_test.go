@@ -21,9 +21,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/uvite/u8/lib/netext"
-	"github.com/uvite/u8/lib/types"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/lib/netext"
+	"github.com/uvite/v9/lib/types"
+	"github.com/uvite/v9/metrics"
 )
 
 const traceDelay = 100 * time.Millisecond

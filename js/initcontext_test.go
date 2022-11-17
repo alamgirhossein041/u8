@@ -18,12 +18,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/lib/consts"
-	"github.com/uvite/u8/lib/netext"
-	"github.com/uvite/u8/lib/testutils"
-	"github.com/uvite/u8/lib/types"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/lib/consts"
+	"github.com/uvite/v9/lib/netext"
+	"github.com/uvite/v9/lib/testutils"
+	"github.com/uvite/v9/lib/types"
+	"github.com/uvite/v9/metrics"
 )
 
 func TestInitContextRequire(t *testing.T) {
@@ -110,7 +110,7 @@ func TestInitContextRequire(t *testing.T) {
 			require.NoError(t, afero.WriteFile(fs, "/file.js", []byte(`throw new Error("aaaa")`), 0o755))
 			_, err := getSimpleBundle(t, "/script.js", `import "/file.js"; export default function() {}`, fs)
 			assert.EqualError(t, err,
-				"Error: aaaa\n\tat file:///file.js:2:7(3)\n\tat github.com/uvite/u8/js.(*InitContext).Require-fm (native)\n\tat file:///script.js:1:0(14)\n\tat native\n")
+				"Error: aaaa\n\tat file:///file.js:2:7(3)\n\tat github.com/uvite/v9/js.(*InitContext).Require-fm (native)\n\tat file:///script.js:1:0(14)\n\tat native\n")
 		})
 
 		imports := map[string]struct {
@@ -364,7 +364,7 @@ func TestRequestWithBinaryFile(t *testing.T) {
 
 	registry := metrics.NewRegistry()
 	builtinMetrics := metrics.RegisterBuiltinMetrics(registry)
-	bi.moduleVUImpl.state = &lib.State{
+	bi.ModuleVUImpl.state = &lib.State{
 		Options: lib.Options{},
 		Logger:  logger,
 		Group:   root,
@@ -386,7 +386,7 @@ func TestRequestWithBinaryFile(t *testing.T) {
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	bi.moduleVUImpl.ctx = ctx
+	bi.ModuleVUImpl.Ctx = ctx
 
 	v, err := bi.GetCallableExport(consts.DefaultFn)(goja.Undefined())
 	require.NoError(t, err)
@@ -511,7 +511,7 @@ func TestRequestWithMultipleBinaryFiles(t *testing.T) {
 
 	registry := metrics.NewRegistry()
 	builtinMetrics := metrics.RegisterBuiltinMetrics(registry)
-	bi.moduleVUImpl.state = &lib.State{
+	bi.ModuleVUImpl.state = &lib.State{
 		Options: lib.Options{},
 		Logger:  logger,
 		Group:   root,
@@ -533,7 +533,7 @@ func TestRequestWithMultipleBinaryFiles(t *testing.T) {
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	bi.moduleVUImpl.ctx = ctx
+	bi.ModuleVUImpl.Ctx = ctx
 
 	v, err := bi.GetCallableExport(consts.DefaultFn)(goja.Undefined())
 	require.NoError(t, err)

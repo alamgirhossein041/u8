@@ -14,15 +14,14 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/uvite/u8/errext"
-	"github.com/uvite/u8/js/common"
-	"github.com/uvite/u8/js/modulestest"
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/lib/executor"
-	"github.com/uvite/u8/lib/testutils"
-	"github.com/uvite/u8/lib/types"
-	"github.com/uvite/u8/metrics"
-	"gopkg.in/guregu/null.v3"
+	"github.com/uvite/v9/errext"
+	"github.com/uvite/v9/js/common"
+	"github.com/uvite/v9/js/modulestest"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/lib/executor"
+	"github.com/uvite/v9/lib/testutils"
+	"github.com/uvite/v9/lib/types"
+	"github.com/uvite/v9/metrics"
 )
 
 func setupTagsExecEnv(t *testing.T) *modulestest.Runtime {

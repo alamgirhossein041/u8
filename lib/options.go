@@ -10,8 +10,8 @@ import (
 	"reflect"
 	"strconv"
 
-	"github.com/uvite/u8/lib/types"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/lib/types"
+	"github.com/uvite/v9/metrics"
 	"gopkg.in/guregu/null.v3"
 )
 

@@ -3,7 +3,7 @@ package errext
 import (
 	"errors"
 
-	"github.com/uvite/u8/errext/exitcodes"
+	"github.com/uvite/v9/errext/exitcodes"
 )
 
 // ExitCode is the code with which the application should exit if this error

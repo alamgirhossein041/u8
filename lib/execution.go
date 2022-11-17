@@ -10,7 +10,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/metrics"
 )
 
 // An ExecutionScheduler is in charge of initializing executors and using them

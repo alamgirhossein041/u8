@@ -11,8 +11,8 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/afero"
 
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/metrics"
 )
 
 // Params contains all possible constructor parameters an output may need.

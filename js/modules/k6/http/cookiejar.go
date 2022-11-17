@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/dop251/goja"
-	"github.com/uvite/u8/js/common"
+	"github.com/uvite/v9/js/common"
 )
 
 // ErrJarForbiddenInInitContext is used when a cookie jar was made in the init context

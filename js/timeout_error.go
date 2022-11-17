@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/uvite/u8/errext"
-	"github.com/uvite/u8/errext/exitcodes"
-	"github.com/uvite/u8/lib/consts"
+	"github.com/uvite/v9/errext"
+	"github.com/uvite/v9/errext/exitcodes"
+	"github.com/uvite/v9/lib/consts"
 )
 
 // timeoutError is used when some operation times out.

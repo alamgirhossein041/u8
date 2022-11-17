@@ -19,11 +19,11 @@ import (
 	"github.com/dop251/goja"
 	"github.com/gorilla/websocket"
 
-	"github.com/uvite/u8/js/common"
-	"github.com/uvite/u8/js/modules"
-	httpModule "github.com/uvite/u8/js/modules/k6/http"
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/js/common"
+	"github.com/uvite/v9/js/modules"
+	httpModule "github.com/uvite/v9/js/modules/k6/http"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/metrics"
 )
 
 type (
@@ -115,6 +115,7 @@ func (mi *WS) Exports() modules.Exports {
 }
 
 // Connect establishes a WebSocket connection based on the parameters provided.
+//
 //nolint:funlen
 func (mi *WS) Connect(url string, args ...goja.Value) (*HTTPResponse, error) {
 	ctx := mi.vu.Context()

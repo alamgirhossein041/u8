@@ -13,7 +13,7 @@ import (
 
 	"golang.org/x/net/http2"
 
-	"github.com/uvite/u8/lib/netext"
+	"github.com/uvite/v9/lib/netext"
 )
 
 // TODO: maybe rename the type errorCode, so we can have errCode variables? and
@@ -152,6 +152,7 @@ func errorCodeForNetOpError(err *net.OpError) (errCode, string) {
 }
 
 // errorCodeForError returns the errorCode and a specific error message for given error.
+//
 //nolint:errorlint
 func errorCodeForError(err error) (errCode, string) {
 	// We explicitly check for `Unwrap()` in the default switch branch, but

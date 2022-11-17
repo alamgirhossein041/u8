@@ -7,19 +7,18 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/afero"
 	"github.com/stretchr/testify/require"
-	"github.com/uvite/u8/js"
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/lib/consts"
-	"github.com/uvite/u8/lib/testutils"
-	"github.com/uvite/u8/loader"
-	"github.com/uvite/u8/metrics"
-	"gopkg.in/guregu/null.v3"
+	"github.com/uvite/v9/js"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/lib/consts"
+	"github.com/uvite/v9/lib/testutils"
+	"github.com/uvite/v9/loader"
+	"github.com/uvite/v9/metrics"
 	"net/url"
 	"testing"
 	"time"
 )
 
-func getTestPreInitState(tb testing.TB, logger *logrus.Logger, rtOpts *lib.RuntimeOptions) *lib.TestPreInitState {
+func getTestPreInitState(tb testing.TB, logger *logrus.Logger, rtOpts *lib.RuntimeOptions) *lib.InitState {
 	if logger == nil {
 		logger = testutils.NewLogger(tb)
 	}
@@ -27,7 +26,7 @@ func getTestPreInitState(tb testing.TB, logger *logrus.Logger, rtOpts *lib.Runti
 		rtOpts = &lib.RuntimeOptions{}
 	}
 	reg := metrics.NewRegistry()
-	return &lib.TestPreInitState{
+	return &lib.InitState{
 		Logger:         logger,
 		RuntimeOptions: *rtOpts,
 		Registry:       reg,
@@ -84,7 +83,7 @@ func getSimpleRunner1(tb testing.TB, filename, data string, opts ...interface{})
 	registry := metrics.NewRegistry()
 	builtinMetrics := metrics.RegisterBuiltinMetrics(registry)
 	return js.New(
-		&lib.TestPreInitState{
+		&lib.InitState{
 			Logger:         logger,
 			RuntimeOptions: rtOpts,
 			BuiltinMetrics: builtinMetrics,
@@ -121,7 +120,7 @@ func getSimpleRunner(tb testing.TB, filename, data string, opts ...interface{}) 
 	registry := metrics.NewRegistry()
 	builtinMetrics := metrics.RegisterBuiltinMetrics(registry)
 	return js.New(
-		&lib.TestPreInitState{
+		&lib.InitState{
 			Logger:         logger,
 			RuntimeOptions: rtOpts,
 			BuiltinMetrics: builtinMetrics,
@@ -149,6 +148,7 @@ func main1() {
 	var t testing.TB
 	r, err := getSimpleRunner(t, "/script.js", `
 			var parseHTML = require("k6/html").parseHTML;
+			import http from "k6/http";
 
 			exports.options = { iterations: 1, vus: 1 };
 
@@ -156,9 +156,13 @@ func main1() {
 				var doc = parseHTML("<html><div class='something'><h1 id='top'>Lorem ipsum</h1></div></html>");
 
 				var o = doc.find("div").get(0).attributes()
-
+console.log(4444)
+  				const res = http.get('https://baidu.com/');
+				  
+				console.log(res)
 				console.log(o)
 			};
+ 
 		`)
 	require.NoError(t, err)
 
@@ -185,10 +189,19 @@ func main() {
 	var t *testing.T
 	b, err := getSimpleBundle(t, "/script.js", `
 					import k6 from "k6";
+import crypto from 'k6/crypto';
+
+			import http from "k6/http";
+
 					export let _k6 = k6;
 					export let dummy = "abc123";
 					export default function() {
-					console.log(3333)
+					console.log(4444)
+  			var correct = "5eb63bbbe01eeed093cb22bb8f5acdc3";
+		var hash = crypto.md5("hello world", "hex");
+
+				  
+				console.log(correct,hash)
 				}
 			`)
 	logger := testutils.NewLogger(t)

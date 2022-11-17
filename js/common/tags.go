@@ -5,7 +5,7 @@ import (
 	"reflect"
 
 	"github.com/dop251/goja"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/metrics"
 )
 
 // ApplyCustomUserTags modifies the given metrics.TagsAndMeta object with the

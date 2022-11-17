@@ -8,9 +8,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/uvite/u8/errext"
-	"github.com/uvite/u8/errext/exitcodes"
-	"github.com/uvite/u8/lib/types"
+	"github.com/uvite/v9/errext"
+	"github.com/uvite/v9/errext/exitcodes"
+	"github.com/uvite/v9/lib/types"
 )
 
 // Threshold is a representation of a single threshold for a single metric

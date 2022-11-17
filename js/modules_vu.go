@@ -4,21 +4,22 @@ import (
 	"context"
 
 	"github.com/dop251/goja"
-	"github.com/uvite/u8/js/common"
-	"github.com/uvite/u8/js/eventloop"
-	"github.com/uvite/u8/lib"
+	"github.com/uvite/v9/js/common"
+	"github.com/uvite/v9/js/eventloop"
+	"github.com/uvite/v9/lib"
 )
 
 type moduleVUImpl struct {
-	ctx       context.Context
+	Ctx       context.Context
 	initEnv   *common.InitEnvironment
 	state     *lib.State
+	Status    *lib.State
 	runtime   *goja.Runtime
 	eventLoop *eventloop.EventLoop
 }
 
 func (m *moduleVUImpl) Context() context.Context {
-	return m.ctx
+	return m.Ctx
 }
 
 func (m *moduleVUImpl) InitEnv() *common.InitEnvironment {

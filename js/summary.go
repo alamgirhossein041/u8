@@ -8,12 +8,13 @@ import (
 	"time"
 
 	"github.com/dop251/goja"
-	"github.com/uvite/u8/js/common"
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/js/common"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/metrics"
 )
 
 // Copied from https://github.com/k6io/jslib.k6.io/tree/master/lib/k6-summary
+//
 //go:embed summary.js
 var jslibSummaryCode string //nolint:gochecknoglobals
 

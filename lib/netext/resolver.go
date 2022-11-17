@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/uvite/u8/lib/types"
+	"github.com/uvite/v9/lib/types"
 )
 
 // MultiResolver returns all IP addresses for the given host.

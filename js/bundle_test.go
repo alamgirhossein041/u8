@@ -17,15 +17,13 @@ import (
 	"github.com/spf13/afero"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"gopkg.in/guregu/null.v3"
-
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/lib/consts"
-	"github.com/uvite/u8/lib/fsext"
-	"github.com/uvite/u8/lib/testutils"
-	"github.com/uvite/u8/lib/types"
-	"github.com/uvite/u8/loader"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/lib/consts"
+	"github.com/uvite/v9/lib/fsext"
+	"github.com/uvite/v9/lib/testutils"
+	"github.com/uvite/v9/lib/types"
+	"github.com/uvite/v9/loader"
+	"github.com/uvite/v9/metrics"
 )
 
 const isWindows = runtime.GOOS == "windows"
@@ -571,6 +569,7 @@ func TestNewBundleFromArchive(t *testing.T) {
 		require.NoError(t, err)
 		bi, err := b.Instantiate(logger, 0)
 		require.NoError(t, err)
+
 		val, err := bi.GetCallableExport(consts.DefaultFn)(goja.Undefined())
 		require.NoError(t, err)
 		require.Equal(t, int64(999), val.Export())

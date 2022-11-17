@@ -6,8 +6,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/metrics"
 )
 
 func BenchmarkEmptyIteration(b *testing.B) {

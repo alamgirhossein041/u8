@@ -12,7 +12,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"golang.org/x/time/rate"
 
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/metrics"
 )
 
 // DialContexter is an interface that can dial with a context

@@ -8,9 +8,9 @@ import (
 
 	"github.com/dop251/goja"
 	"github.com/stretchr/testify/require"
-	"github.com/uvite/u8/js/common"
-	"github.com/uvite/u8/js/eventloop"
-	"github.com/uvite/u8/js/modulestest"
+	"github.com/uvite/v9/js/common"
+	"github.com/uvite/v9/js/eventloop"
+	"github.com/uvite/v9/js/modulestest"
 )
 
 func TestBasicEventLoop(t *testing.T) {
@@ -194,7 +194,7 @@ func TestEventLoopRejectGoError(t *testing.T) {
 		return err
 	})
 	loop.WaitOnRegistered()
-	require.EqualError(t, err, "Uncaught (in promise) GoError: some error\n\tat github.com/uvite/u8/js/eventloop_test.TestEventLoopRejectGoError.func1 (native)\n\tat <eval>:1:30(1)\n\tat native\n")
+	require.EqualError(t, err, "Uncaught (in promise) GoError: some error\n\tat github.com/uvite/v9/js/eventloop_test.TestEventLoopRejectGoError.func1 (native)\n\tat <eval>:1:30(1)\n\tat native\n")
 }
 
 func TestEventLoopRejectThrow(t *testing.T) {
@@ -211,5 +211,5 @@ func TestEventLoopRejectThrow(t *testing.T) {
 		return err
 	})
 	loop.WaitOnRegistered()
-	require.EqualError(t, err, "Uncaught (in promise) GoError: throw error\n\tat github.com/uvite/u8/js/eventloop_test.TestEventLoopRejectThrow.func1 (native)\n\tat <eval>:1:30(1)\n\tat native\n")
+	require.EqualError(t, err, "Uncaught (in promise) GoError: throw error\n\tat github.com/uvite/v9/js/eventloop_test.TestEventLoopRejectThrow.func1 (native)\n\tat <eval>:1:30(1)\n\tat native\n")
 }

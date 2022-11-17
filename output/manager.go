@@ -2,8 +2,8 @@ package output
 
 import (
 	"github.com/sirupsen/logrus"
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/metrics"
 )
 
 // Manager can be used to manage multiple outputs at the same time.

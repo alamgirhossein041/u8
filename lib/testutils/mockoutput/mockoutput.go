@@ -1,9 +1,9 @@
 package mockoutput
 
 import (
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/metrics"
-	"github.com/uvite/u8/output"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/metrics"
+	"github.com/uvite/v9/output"
 )
 
 // New exists so that the usage from tests avoids repetition, i.e. is

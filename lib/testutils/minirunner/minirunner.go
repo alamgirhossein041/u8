@@ -4,8 +4,8 @@ import (
 	"context"
 	"io"
 
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/metrics"
 )
 
 // Ensure mock implementations conform to the interfaces.

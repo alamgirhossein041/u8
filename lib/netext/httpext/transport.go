@@ -9,9 +9,9 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/lib/netext"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/lib/netext"
+	"github.com/uvite/v9/metrics"
 )
 
 // transport is an implementation of http.RoundTripper that will measure and emit
@@ -71,6 +71,7 @@ func newTransport(
 
 // Helper method to finish the tracer trail, assemble the tag values and emits
 // the metric samples for the supplied unfinished request.
+//
 //nolint:nestif,funlen
 func (t *transport) measureAndEmitMetrics(unfReq *unfinishedRequest) *finishedRequest {
 	trail := unfReq.tracer.Done()

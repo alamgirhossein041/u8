@@ -20,10 +20,9 @@ import (
 	"github.com/dop251/goja"
 	"github.com/dop251/goja/parser"
 	"github.com/stretchr/testify/assert"
-	"github.com/uvite/u8/js/compiler"
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/lib/testutils"
-	"gopkg.in/yaml.v3"
+	"github.com/uvite/v9/js/compiler"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/lib/testutils"
 )
 
 const (

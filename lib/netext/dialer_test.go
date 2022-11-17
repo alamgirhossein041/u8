@@ -6,9 +6,9 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/lib/testutils/mockresolver"
-	"github.com/uvite/u8/lib/types"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/lib/testutils/mockresolver"
+	"github.com/uvite/v9/lib/types"
 )
 
 func TestDialerAddr(t *testing.T) {

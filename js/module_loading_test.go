@@ -9,12 +9,10 @@ import (
 
 	"github.com/spf13/afero"
 	"github.com/stretchr/testify/require"
-	"gopkg.in/guregu/null.v3"
-
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/lib/testutils"
-	"github.com/uvite/u8/lib/testutils/httpmultibin"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/lib/testutils"
+	"github.com/uvite/v9/lib/testutils/httpmultibin"
+	"github.com/uvite/v9/metrics"
 )
 
 func newDevNullSampleChannel() chan metrics.SampleContainer {

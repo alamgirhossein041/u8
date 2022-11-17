@@ -12,9 +12,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/uvite/u8/lib/testutils"
-	"github.com/uvite/u8/metrics"
-	"github.com/uvite/u8/output"
+	"github.com/uvite/v9/lib/testutils"
+	"github.com/uvite/v9/metrics"
+	"github.com/uvite/v9/output"
 )
 
 func getValidator(t testing.TB, expected []string) func(io.Reader) {

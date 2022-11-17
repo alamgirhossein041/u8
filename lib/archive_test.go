@@ -13,11 +13,9 @@ import (
 	"github.com/spf13/afero"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"gopkg.in/guregu/null.v3"
-
-	"github.com/uvite/u8/lib/consts"
-	"github.com/uvite/u8/lib/fsext"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/lib/consts"
+	"github.com/uvite/v9/lib/fsext"
+	"github.com/uvite/v9/metrics"
 )
 
 func TestNormalizeAndAnonymizePath(t *testing.T) {

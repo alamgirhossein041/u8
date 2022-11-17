@@ -4,12 +4,10 @@ import (
 	"io"
 
 	"github.com/sirupsen/logrus"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/metrics"
 )
 
-// TestPreInitState contains all of the state that can be gathered and built
-// before the test run is initialized.
-type TestPreInitState struct {
+type InitState struct {
 	RuntimeOptions RuntimeOptions
 	Registry       *metrics.Registry
 	BuiltinMetrics *metrics.BuiltinMetrics
@@ -22,7 +20,7 @@ type TestPreInitState struct {
 // TestRunState contains the pre-init state as well as all of the state and
 // options that are necessary for actually running the test.
 type TestRunState struct {
-	*TestPreInitState
+	*InitState
 
 	Options Options
 	Runner  Runner // TODO: rename to something better, see type comment

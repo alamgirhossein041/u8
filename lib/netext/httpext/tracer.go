@@ -7,7 +7,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/metrics"
 	"gopkg.in/guregu/null.v3"
 )
 

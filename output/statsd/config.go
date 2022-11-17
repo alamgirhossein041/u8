@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/mstoykov/envconfig"
+	"github.com/kelseyhightower/envconfig"
 	"gopkg.in/guregu/null.v3"
 
-	"github.com/uvite/u8/lib/types"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/lib/types"
+	"github.com/uvite/v9/metrics"
 )
 
 // config defines the StatsD configuration.

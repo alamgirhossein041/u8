@@ -6,21 +6,20 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"gopkg.in/guregu/null.v3"
 	"net/url"
 	"runtime"
 
 	"github.com/dop251/goja"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/afero"
-	"gopkg.in/guregu/null.v3"
-
-	"github.com/uvite/u8/js/common"
-	"github.com/uvite/u8/js/compiler"
-	"github.com/uvite/u8/js/eventloop"
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/lib/consts"
-	"github.com/uvite/u8/loader"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/js/common"
+	"github.com/uvite/v9/js/compiler"
+	"github.com/uvite/v9/js/eventloop"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/lib/consts"
+	"github.com/uvite/v9/loader"
+	"github.com/uvite/v9/metrics"
 )
 
 // A Bundle is a self-contained bundle of scripts and resources.
@@ -48,7 +47,7 @@ type BundleInstance struct {
 	env map[string]string
 
 	exports      map[string]goja.Callable
-	moduleVUImpl *moduleVUImpl
+	ModuleVUImpl *moduleVUImpl
 	Pgm          programWithSource
 }
 
@@ -60,9 +59,13 @@ func (bi *BundleInstance) getExported(name string) goja.Value {
 	return bi.Pgm.Exports.Get(name)
 }
 
+func (bi *BundleInstance) GetExported(name string) goja.Value {
+	return bi.Pgm.Exports.Get(name)
+}
+
 // NewBundle creates a new bundle from a source file and a filesystem.
 func NewBundle(
-	piState *lib.TestPreInitState, src *loader.SourceData, filesystems map[string]afero.Fs,
+	piState *lib.InitState, src *loader.SourceData, filesystems map[string]afero.Fs,
 ) (*Bundle, error) {
 	compatMode, err := lib.ValidateCompatibilityMode(piState.RuntimeOptions.CompatibilityMode.String)
 	if err != nil {
@@ -106,7 +109,7 @@ func NewBundle(
 }
 
 // NewBundleFromArchive creates a new bundle from an lib.Archive.
-func NewBundleFromArchive(piState *lib.TestPreInitState, arc *lib.Archive) (*Bundle, error) {
+func NewBundleFromArchive(piState *lib.InitState, arc *lib.Archive) (*Bundle, error) {
 	if arc.Type != "js" {
 		return nil, fmt.Errorf("expected bundle type 'js', got '%s'", arc.Type)
 	}
@@ -243,7 +246,7 @@ func (b *Bundle) Instantiate(logger logrus.FieldLogger, vuID uint64) (*BundleIns
 	// Instantiate the bundle into a new VM using a bound init context. This uses a context with a
 	// runtime, but no state, to allow module-provided types to function within the init context.
 
-	//fmt.Println("22222")
+	fmt.Println("22222")
 
 	vuImpl := &moduleVUImpl{runtime: goja.New()}
 	init := newBoundInitContext(b.BaseInitContext, vuImpl)
@@ -257,7 +260,7 @@ func (b *Bundle) Instantiate(logger logrus.FieldLogger, vuID uint64) (*BundleIns
 		Runtime:      rt,
 		exports:      make(map[string]goja.Callable),
 		env:          b.RuntimeOptions.Env,
-		moduleVUImpl: vuImpl,
+		ModuleVUImpl: vuImpl,
 		Pgm:          pgm,
 	}
 
@@ -329,7 +332,7 @@ func (b *Bundle) instantiate(logger logrus.FieldLogger, rt *goja.Runtime, init *
 		Registry:    b.registry,
 	}
 	unbindInit := b.setInitGlobals(rt, init)
-	init.moduleVUImpl.ctx = context.Background()
+	init.moduleVUImpl.Ctx = context.Background()
 	init.moduleVUImpl.initEnv = initenv
 	init.moduleVUImpl.eventLoop = eventloop.New(init.moduleVUImpl)
 	pgm := b.initializeProgramObject(rt, init)
@@ -364,7 +367,7 @@ func (b *Bundle) instantiate(logger logrus.FieldLogger, rt *goja.Runtime, init *
 	pgm.Exports = exportsV.ToObject(rt)
 	init.programs[b.Filename.String()] = pgm
 	unbindInit()
-	init.moduleVUImpl.ctx = nil
+	init.moduleVUImpl.Ctx = nil
 	init.moduleVUImpl.initEnv = nil
 
 	// If we've already initialized the original VU init context, forbid

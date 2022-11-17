@@ -5,6 +5,11 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/Azure/go-ntlmssp"
+	"github.com/sirupsen/logrus"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/metrics"
+	"gopkg.in/guregu/null.v3"
 	"io"
 	"io/ioutil"
 	"net"
@@ -13,13 +18,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/Azure/go-ntlmssp"
-	"github.com/sirupsen/logrus"
-	"gopkg.in/guregu/null.v3"
-
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/metrics"
 )
 
 // HTTPRequestCookie is a representation of a cookie used for request objects

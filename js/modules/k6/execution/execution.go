@@ -8,11 +8,11 @@ import (
 
 	"github.com/dop251/goja"
 
-	"github.com/uvite/u8/errext"
-	"github.com/uvite/u8/js/common"
-	"github.com/uvite/u8/js/modules"
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/errext"
+	"github.com/uvite/v9/js/common"
+	"github.com/uvite/v9/js/modules"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/metrics"
 )
 
 type (

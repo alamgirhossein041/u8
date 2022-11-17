@@ -9,8 +9,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/uvite/u8/lib/testutils/mockresolver"
-	"github.com/uvite/u8/lib/types"
+	"github.com/uvite/v9/lib/testutils/mockresolver"
+	"github.com/uvite/v9/lib/types"
 )
 
 func TestResolver(t *testing.T) {

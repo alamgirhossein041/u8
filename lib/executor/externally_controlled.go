@@ -9,11 +9,9 @@ import (
 	"time"
 
 	"github.com/sirupsen/logrus"
-	"gopkg.in/guregu/null.v3"
-
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/lib/types"
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/lib"
+	"github.com/uvite/v9/lib/types"
+	"github.com/uvite/v9/metrics"
 )
 
 const externallyControlledType = "externally-controlled"
@@ -441,6 +439,7 @@ func (rs *externallyControlledRunState) handleConfigChange(oldCfg, newCfg Extern
 // Run constantly loops through as many iterations as possible on a variable
 // dynamically controlled number of VUs either for the specified duration, or
 // until the test is manually stopped.
+//
 //nolint:funlen,gocognit
 func (mex *ExternallyControlled) Run(parentCtx context.Context, out chan<- metrics.SampleContainer) (err error) {
 	mex.configLock.RLock()

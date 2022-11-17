@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/uvite/u8/metrics"
+	"github.com/uvite/v9/metrics"
 )
 
 // SampleBuffer is a simple thread-safe buffer for metric samples. It should be

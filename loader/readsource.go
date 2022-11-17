@@ -11,7 +11,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/afero"
 
-	"github.com/uvite/u8/lib/fsext"
+	"github.com/uvite/v9/lib/fsext"
 )
 
 // ReadSource Reads a source file from any supported destination.
@@ -36,9 +36,12 @@ func ReadSource(
 	} else {
 		srcLocalPath = filepath.Join(pwd, src)
 	}
+	fmt.Println(srcLocalPath)
 	// All paths should start with a / in all fses. This is mostly for windows where it will start
 	// with a volume name : C:\something.js
 	srcLocalPath = filepath.Clean(afero.FilePathSeparator + srcLocalPath)
+
+	fmt.Println(srcLocalPath)
 	if ok, _ := afero.Exists(filesystems["file"], srcLocalPath); ok {
 		// there is file on the local disk ... lets use it :)
 		return Load(logger, filesystems, &url.URL{Scheme: "file", Path: filepath.ToSlash(srcLocalPath)}, src)
