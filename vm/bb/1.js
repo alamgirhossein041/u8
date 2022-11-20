@@ -1,5 +1,5 @@
 
-// let abc=ta.rsi(close,5)
+ let abc=ta.rsi(close,5)
 // let aa=ta.series()
 // aa.push("hold")
 // aa.push("buy")
@@ -7,8 +7,9 @@
 // aa.push("sell")
 // aa.push("sell")
 // let changed=ta.change(aa,2)
-// console.log(abc.tail(5),changed)
-console.log(b.last())
+ console.log(abc.tail(5) )
+console.log(close.tail(5))
+
 //console.log(high.last())
 //let c=ta.atr(high,low,close,10)
 // let c=ta.sma(fuck,10)

@@ -141,6 +141,7 @@ func (ta Ta) Atr(h, l, c floats.Slice, n int64) floats.Slice {
 
 	a := NewAtr(n)
 	for i := 0; i < len(c); i++ {
+		//fmt.Println(h[i], l[i], c[i])
 		out[i] = a.Update(h[i], l[i], c[i])
 	}
 

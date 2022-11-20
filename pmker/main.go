@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"github.com/adshao/go-binance/v2"
 	"github.com/c9s/bbgo/pkg/fixedpoint"
-	tart "github.com/uvite/indicator"
+	"github.com/uvite/indicator/floats"
 
 	//fixedpoint "github.com/c9s/bbgo/pkg/fixedpoint"
 	"github.com/dop251/goja"
@@ -125,9 +125,14 @@ func main() {
 	// Calculate indicators.
 	//sma := fta.SMA(ohlcv.Close, period)
 	//fmt.Println(sma.IndexAt(1))
-	close := &tart.Series{}
-	high := &tart.Series{}
-	low := &tart.Series{}
+	//close := &tart.Series{}
+	//high := &tart.Series{}
+	//low := &tart.Series{}
+	close := &floats.Slice{}
+	high := &floats.Slice{}
+	//b.Set("high", high)
+	low := &floats.Slice{}
+	//b.Set("low", low)
 	rtOpts := lib.RuntimeOptions{Genv: map[string]any{
 		"close": close,
 		"high":  high,
@@ -154,21 +159,16 @@ func main() {
 		fmt.Sprintf(`
 					import k6 from "k6";
 					import ta from "k6/ta";
-					//export let close=ta.slice();
-					//export let high=ta.slice();
-					//export let low=ta.slice();
-					//export let abc="23423"; 
+					 
 					export default function() {
-						//close.push(33);
+						 
 						%s
 					}
 			`, sourceData.Data), fs, rtOpts)
 	//b.Set("close", close)
 	bi, err := b.Instantiate(logger, 0)
 
-	//b.Set("b", b)
-
-	//bi.Runtime.Set("ok", "3333")
+	//bi.Runtime.Set("close", close)
 	//fmt.Println(err)
 	exports := bi.Pgm.Exports
 
@@ -235,35 +235,40 @@ func main() {
 		//rsx.Push(fixedpoint.MustNewFromString(event.Low).Float64())
 
 	}
-	wsKlineHandler := func(event *binance.WsKlineEvent) {
-
-		if event.Kline.IsFinal {
-			//k := binance.Kline{
-			//
-			//	Open:     event.Kline.Open,
-			//	High:     event.Kline.High,
-			//	Low:      event.Kline.Low,
-			//	Close:    event.Kline.Close,
-			//	Volume:   event.Kline.Volume,
-			//	OpenTime: event.Kline.StartTime,
-			//
-			//	//OpenTime: types.NewTimeFromUnix(0, event.Kline.EndTime*int64(time.Millisecond)),
-			//}
-			close.Push(fixedpoint.MustNewFromString(event.Kline.Close).Float64())
-			high.Push(fixedpoint.MustNewFromString(event.Kline.High).Float64())
-			low.Push(fixedpoint.MustNewFromString(event.Kline.Low).Float64())
-			//rsx.Push(fixedpoint.MustNewFromString(event.Kline.Low).Float64())
-			//b.Set("close", close)
-
-			//fmt.Println(close.Rolling(period).Mean().IndexAt(0), "22222")
-			//fmt.Println(Close.Last(), 3333)
-			if call, ok := goja.AssertFunction(exports.Get("default")); ok {
-				if _, err = call(goja.Undefined()); err != nil {
-
-				}
-			}
+	if call, ok := goja.AssertFunction(exports.Get("default")); ok {
+		if _, err = call(goja.Undefined()); err != nil {
 
 		}
+	}
+	wsKlineHandler := func(event *binance.WsKlineEvent) {
+
+		//if event.Kline.IsFinal {
+		//k := binance.Kline{
+		//
+		//	Open:     event.Kline.Open,
+		//	High:     event.Kline.High,
+		//	Low:      event.Kline.Low,
+		//	Close:    event.Kline.Close,
+		//	Volume:   event.Kline.Volume,
+		//	OpenTime: event.Kline.StartTime,
+		//
+		//	//OpenTime: types.NewTimeFromUnix(0, event.Kline.EndTime*int64(time.Millisecond)),
+		//}
+		close.Push(fixedpoint.MustNewFromString(event.Kline.Close).Float64())
+		high.Push(fixedpoint.MustNewFromString(event.Kline.High).Float64())
+		low.Push(fixedpoint.MustNewFromString(event.Kline.Low).Float64())
+		//rsx.Push(fixedpoint.MustNewFromString(event.Kline.Low).Float64())
+		//b.Set("close", close)
+
+		//fmt.Println(close.Rolling(period).Mean().IndexAt(0), "22222")
+		//fmt.Println(Close.Last(), 3333)
+		if call, ok := goja.AssertFunction(exports.Get("default")); ok {
+			if _, err = call(goja.Undefined()); err != nil {
+
+			}
+		}
+
+		//}
 	}
 	errHandler := func(err error) {
 		fmt.Println(err)

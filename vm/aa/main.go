@@ -8,7 +8,6 @@ import (
 	"github.com/adshao/go-binance/v2"
 	"github.com/c9s/bbgo/pkg/fixedpoint"
 	tart "github.com/uvite/indicator"
-
 	//fixedpoint "github.com/c9s/bbgo/pkg/fixedpoint"
 	"github.com/dop251/goja"
 	"github.com/sirupsen/logrus"
