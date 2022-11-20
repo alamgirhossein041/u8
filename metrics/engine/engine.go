@@ -8,9 +8,9 @@ import (
 	"sync"
 
 	"github.com/sirupsen/logrus"
-	"github.com/uvite/v9/lib"
-	"github.com/uvite/v9/metrics"
-	"github.com/uvite/v9/output"
+	"github.com/uvite/u8/lib"
+	"github.com/uvite/u8/metrics"
+	"github.com/uvite/u8/output"
 )
 
 // MetricsEngine is the internal metrics engine that k6 uses to keep track of

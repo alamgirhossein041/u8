@@ -12,9 +12,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/uvite/v9/lib/testutils"
-	"github.com/uvite/v9/lib/testutils/httpmultibin"
-	"github.com/uvite/v9/loader"
+	"github.com/uvite/u8/lib/testutils"
+	"github.com/uvite/u8/lib/testutils/httpmultibin"
+	"github.com/uvite/u8/loader"
 )
 
 func TestDir(t *testing.T) {

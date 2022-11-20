@@ -13,12 +13,12 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/afero"
 
-	"github.com/uvite/v9/js/common"
-	"github.com/uvite/v9/js/compiler"
-	"github.com/uvite/v9/js/modules"
-	"github.com/uvite/v9/lib"
-	"github.com/uvite/v9/lib/fsext"
-	"github.com/uvite/v9/loader"
+	"github.com/uvite/u8/js/common"
+	"github.com/uvite/u8/js/compiler"
+	"github.com/uvite/u8/js/modules"
+	"github.com/uvite/u8/lib"
+	"github.com/uvite/u8/lib/fsext"
+	"github.com/uvite/u8/loader"
 )
 
 type programWithSource struct {

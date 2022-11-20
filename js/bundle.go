@@ -13,13 +13,13 @@ import (
 	"github.com/dop251/goja"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/afero"
-	"github.com/uvite/v9/js/common"
-	"github.com/uvite/v9/js/compiler"
-	"github.com/uvite/v9/js/eventloop"
-	"github.com/uvite/v9/lib"
-	"github.com/uvite/v9/lib/consts"
-	"github.com/uvite/v9/loader"
-	"github.com/uvite/v9/metrics"
+	"github.com/uvite/u8/js/common"
+	"github.com/uvite/u8/js/compiler"
+	"github.com/uvite/u8/js/eventloop"
+	"github.com/uvite/u8/lib"
+	"github.com/uvite/u8/lib/consts"
+	"github.com/uvite/u8/loader"
+	"github.com/uvite/u8/metrics"
 )
 
 // A Bundle is a self-contained bundle of scripts and resources.
@@ -29,6 +29,7 @@ type Bundle struct {
 	Source   string
 	Program  *goja.Program
 	Options  lib.Options
+	Vm       *goja.Runtime
 
 	BaseInitContext *InitContext
 
@@ -95,6 +96,7 @@ func NewBundle(
 		CompatibilityMode: compatMode,
 		exports:           make(map[string]goja.Callable),
 		registry:          piState.Registry,
+		Vm:                rt,
 	}
 	if err = bundle.instantiate(piState.Logger, rt, bundle.BaseInitContext, 0); err != nil {
 		return nil, err
@@ -246,7 +248,7 @@ func (b *Bundle) Instantiate(logger logrus.FieldLogger, vuID uint64) (*BundleIns
 	// Instantiate the bundle into a new VM using a bound init context. This uses a context with a
 	// runtime, but no state, to allow module-provided types to function within the init context.
 
-	fmt.Println("22222")
+	//fmt.Println("22222")
 
 	vuImpl := &moduleVUImpl{runtime: goja.New()}
 	init := newBoundInitContext(b.BaseInitContext, vuImpl)
@@ -255,6 +257,7 @@ func (b *Bundle) Instantiate(logger logrus.FieldLogger, vuID uint64) (*BundleIns
 	}
 
 	rt := vuImpl.runtime
+	b.Vm = rt
 	pgm := init.programs[b.Filename.String()] // this is the main script and it's always present
 	bi := &BundleInstance{
 		Runtime:      rt,
@@ -308,10 +311,35 @@ func (b *Bundle) initializeProgramObject(rt *goja.Runtime, init *InitContext) pr
 	init.programs[b.Filename.String()] = pgm
 	return pgm
 }
-
+func (b *Bundle) Set(key string, value any) {
+	b.Vm.Set(key, value)
+}
 func (b *Bundle) instantiate(logger logrus.FieldLogger, rt *goja.Runtime, init *InitContext, vuID uint64) (err error) {
 	rt.SetFieldNameMapper(common.FieldNameMapper{})
 	rt.SetRandSource(common.NewRandSource())
+	genv := make(map[string]any, len(b.RuntimeOptions.Genv))
+	for key, value := range b.RuntimeOptions.Genv {
+		genv[key] = value
+		rt.Set(key, value)
+		//fmt.Println(key, value)
+	}
+	//tae := rt.NewObject()
+	//
+	//tae.Set("sma", fta.SMA)
+	//tae.Set("ema", fta.EMA)
+	//tae.Set("wma", fta.WMA)
+	//tae.Set("hma", fta.HMA)
+	//tae.Set("boll", fta.BBANDS)
+	//tae.Set("roc", fta.ROC)
+	//tae.Set("rsi", fta.RSI)
+	//tae.Set("sar", fta.PSAR)
+	//
+	//rt.Set("ta", tae)
+	//
+	//tart1 := rt.NewObject()
+	//
+	//tart1.Set("newsma", tart.NewSma)
+	//rt.Set("tart", tart1)
 
 	env := make(map[string]string, len(b.RuntimeOptions.Env))
 	for key, value := range b.RuntimeOptions.Env {

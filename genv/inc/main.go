@@ -1,24 +1,17 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"github.com/dop251/goja"
-	"github.com/oxtoacart/bpool"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/afero"
-	"github.com/uvite/v9/js"
-	"github.com/uvite/v9/lib"
-	"github.com/uvite/v9/lib/consts"
-	"github.com/uvite/v9/lib/netext"
-	"github.com/uvite/v9/lib/types"
-	"github.com/uvite/v9/loader"
-	"github.com/uvite/v9/metrics"
-	"net"
+	"github.com/uvite/u8/js"
+	"github.com/uvite/u8/lib"
+	"github.com/uvite/u8/loader"
+	"github.com/uvite/u8/metrics"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
-	"time"
 )
 
 func getPreInitState(logger *logrus.Logger, rtOpts *lib.RuntimeOptions) *lib.InitState {
@@ -86,47 +79,28 @@ func main() {
 
 	b, err := getSimpleBundle("/path/to/script.js",
 		fmt.Sprintf(`
-			import http from "k6/http";
-			//let binFile = open("/path/to/file.bin", "b");
-			export default function() {
-				  const res = http.get('https://httpbin.test.k6.io/');
-				  
-				console.log(res)
-				return true;
-			}
+			import k6 from "k6";
+					export let _k6 = k6;
+					export let dummy = "abc123";
+					export default function() {
+						console.log(dummy)
+					}
 			`), fs)
 
 	bi, err := b.Instantiate(logger, 0)
-
-	registry := metrics.NewRegistry()
-	builtinMetrics := metrics.RegisterBuiltinMetrics(registry)
-
-	root, err := lib.NewGroup("", nil)
-
-	bi.ModuleVUImpl.Status = &lib.State{
-		Options: lib.Options{},
-		Logger:  logger,
-		Group:   root,
-		Transport: &http.Transport{
-			DialContext: (netext.NewDialer(
-				net.Dialer{
-					Timeout:   10 * time.Second,
-					KeepAlive: 60 * time.Second,
-					DualStack: true,
-				},
-				netext.NewResolver(net.LookupIP, 0, types.DNSfirst, types.DNSpreferIPv4),
-			)).DialContext,
-		},
-		BPool:          bpool.NewBufferPool(1),
-		Samples:        make(chan metrics.SampleContainer, 500),
-		BuiltinMetrics: builtinMetrics,
-		Tags:           lib.NewVUStateTags(registry.RootTagSet()),
+	fmt.Println(err)
+	exports := bi.Pgm.Exports
+	bb := exports.Get("_k6").ToObject(bi.Runtime)
+	for _, k := range bb.Keys() {
+		fmt.Println(k)
 	}
+	//fmt.Println(exports.Get("_k6"))
+	_, defaultOk := goja.AssertFunction(exports.Get("default"))
+	fmt.Println(defaultOk, exports.Get("dummy").String())
 
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-	bi.ModuleVUImpl.Ctx = ctx
-	v, err := bi.GetCallableExport(consts.DefaultFn)(goja.Undefined())
-
-	fmt.Println(v, err)
+	//k6 := exports.Get("_k6").ToObject(bi.Runtime)
+	//fmt.Println(k6)
+	//_, groupOk := goja.AssertFunction(k6.Get("group"))
+	////assert.True(t, groupOk, "k6.group is not a function")
+	//fmt.Println(groupOk)
 }

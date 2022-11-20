@@ -7,8 +7,8 @@ import (
 	"github.com/DataDog/datadog-go/statsd"
 	"github.com/sirupsen/logrus"
 
-	"github.com/uvite/v9/metrics"
-	"github.com/uvite/v9/output"
+	"github.com/uvite/u8/metrics"
+	"github.com/uvite/u8/output"
 )
 
 // New creates a new statsd connector client

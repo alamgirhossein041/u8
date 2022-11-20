@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/afero"
-	"github.com/uvite/v9/js"
-	"github.com/uvite/v9/lib"
-	"github.com/uvite/v9/loader"
-	"github.com/uvite/v9/metrics"
+	"github.com/uvite/u8/js"
+	"github.com/uvite/u8/lib"
+	"github.com/uvite/u8/loader"
+	"github.com/uvite/u8/metrics"
 	"gopkg.in/guregu/null.v3"
 	"net/url"
 	"time"
@@ -98,6 +98,7 @@ func main() {
 	//
 	//fmt.Println(v, err)
 	fmt.Println(err)
+
 	ch := make(chan metrics.SampleContainer, 1000)
 	initVU, err := r.NewVU(0, 0, ch)
 

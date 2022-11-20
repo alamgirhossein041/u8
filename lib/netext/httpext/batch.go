@@ -4,7 +4,7 @@ import (
 	"context"
 	"sync/atomic"
 
-	"github.com/uvite/v9/lib"
+	"github.com/uvite/u8/lib"
 )
 
 // BatchParsedHTTPRequest extends the normal parsed HTTP request with a pointer

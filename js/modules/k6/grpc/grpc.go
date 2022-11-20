@@ -2,7 +2,7 @@ package grpc
 
 import (
 	"github.com/dop251/goja"
-	"github.com/uvite/v9/js/modules"
+	"github.com/uvite/u8/js/modules"
 	"google.golang.org/grpc/codes"
 )
 

@@ -3,7 +3,7 @@ package json
 import (
 	"time"
 
-	"github.com/uvite/v9/metrics"
+	"github.com/uvite/u8/metrics"
 )
 
 //go:generate easyjson -pkg -no_std_marshalers -gen_build_flags -mod=mod .

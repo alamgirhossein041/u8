@@ -2,8 +2,8 @@ package executor
 
 import (
 	"github.com/sirupsen/logrus"
-	"github.com/uvite/v9/lib"
-	"github.com/uvite/v9/lib/types"
+	"github.com/uvite/u8/lib"
+	"github.com/uvite/u8/lib/types"
 )
 
 // ExecutionConflictError is a custom error type used for all of the errors in

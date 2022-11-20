@@ -6,11 +6,11 @@ import (
 	"testing"
 
 	"github.com/dop251/goja"
-	"github.com/uvite/v9/js/common"
-	"github.com/uvite/v9/js/eventloop"
-	"github.com/uvite/v9/lib"
-	"github.com/uvite/v9/lib/testutils"
-	"github.com/uvite/v9/metrics"
+	"github.com/uvite/u8/js/common"
+	"github.com/uvite/u8/js/eventloop"
+	"github.com/uvite/u8/lib"
+	"github.com/uvite/u8/lib/testutils"
+	"github.com/uvite/u8/metrics"
 )
 
 // Runtime is a helper struct that contains what is needed to run a (simple) module test

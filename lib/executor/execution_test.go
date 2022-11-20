@@ -13,9 +13,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/uvite/v9/lib"
-	"github.com/uvite/v9/lib/testutils"
-	"github.com/uvite/v9/lib/testutils/minirunner"
+	"github.com/uvite/u8/lib"
+	"github.com/uvite/u8/lib/testutils"
+	"github.com/uvite/u8/lib/testutils/minirunner"
 )
 
 func TestExecutionStateVUIDs(t *testing.T) {

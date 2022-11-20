@@ -13,7 +13,7 @@ import (
 	"github.com/andybalholm/brotli"
 	"github.com/klauspost/compress/zstd"
 
-	"github.com/uvite/v9/lib"
+	"github.com/uvite/u8/lib"
 )
 
 // CompressionType is used to specify what compression is to be used to compress the body of a

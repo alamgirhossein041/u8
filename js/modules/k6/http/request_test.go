@@ -36,12 +36,12 @@ import (
 	logtest "github.com/sirupsen/logrus/hooks/test"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/uvite/v9/js/modulestest"
-	"github.com/uvite/v9/lib"
-	"github.com/uvite/v9/lib/netext"
-	"github.com/uvite/v9/lib/testutils"
-	"github.com/uvite/v9/lib/testutils/httpmultibin"
-	"github.com/uvite/v9/metrics"
+	"github.com/uvite/u8/js/modulestest"
+	"github.com/uvite/u8/lib"
+	"github.com/uvite/u8/lib/netext"
+	"github.com/uvite/u8/lib/testutils"
+	"github.com/uvite/u8/lib/testutils/httpmultibin"
+	"github.com/uvite/u8/metrics"
 )
 
 // TODO replace this with the Single version

@@ -3,7 +3,7 @@ package httpext
 import (
 	"crypto/tls"
 
-	"github.com/uvite/v9/lib/netext"
+	"github.com/uvite/u8/lib/netext"
 )
 
 // ResponseType is used in the request to specify how the response body should be treated

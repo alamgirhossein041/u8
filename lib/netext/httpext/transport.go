@@ -9,9 +9,9 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/uvite/v9/lib"
-	"github.com/uvite/v9/lib/netext"
-	"github.com/uvite/v9/metrics"
+	"github.com/uvite/u8/lib"
+	"github.com/uvite/u8/lib/netext"
+	"github.com/uvite/u8/metrics"
 )
 
 // transport is an implementation of http.RoundTripper that will measure and emit

@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/uvite/v9/lib"
+	"github.com/uvite/u8/lib"
 )
 
 func TestTLS13Support(t *testing.T) {

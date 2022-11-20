@@ -6,7 +6,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/afero"
-	"github.com/uvite/v9/metrics"
+	"github.com/uvite/u8/metrics"
 )
 
 // InitEnvironment contains properties that can be accessed by Go code executed

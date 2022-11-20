@@ -7,8 +7,8 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"github.com/uvite/v9/lib"
-	"github.com/uvite/v9/metrics"
+	"github.com/uvite/u8/lib"
+	"github.com/uvite/u8/metrics"
 )
 
 // BaseExecutor is a helper struct that contains common properties and methods

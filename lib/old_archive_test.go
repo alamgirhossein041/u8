@@ -12,7 +12,7 @@ import (
 	"github.com/spf13/afero"
 	"github.com/stretchr/testify/require"
 
-	"github.com/uvite/v9/lib/fsext"
+	"github.com/uvite/u8/lib/fsext"
 )
 
 func dumpMemMapFsToBuf(fs afero.Fs) (*bytes.Buffer, error) {

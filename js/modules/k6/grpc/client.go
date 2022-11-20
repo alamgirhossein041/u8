@@ -8,11 +8,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/uvite/v9/js/common"
-	"github.com/uvite/v9/js/modules"
-	"github.com/uvite/v9/lib/netext/grpcext"
-	"github.com/uvite/v9/lib/types"
-	"github.com/uvite/v9/metrics"
+	"github.com/uvite/u8/js/common"
+	"github.com/uvite/u8/js/modules"
+	"github.com/uvite/u8/lib/netext/grpcext"
+	"github.com/uvite/u8/lib/types"
+	"github.com/uvite/u8/metrics"
 
 	"github.com/dop251/goja"
 	"github.com/jhump/protoreflect/desc"

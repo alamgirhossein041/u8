@@ -4,7 +4,7 @@ import (
 	"io"
 
 	"github.com/sirupsen/logrus"
-	"github.com/uvite/v9/metrics"
+	"github.com/uvite/u8/metrics"
 )
 
 type InitState struct {

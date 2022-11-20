@@ -8,6 +8,7 @@ import (
 )
 
 // CompatibilityMode specifies the JS compatibility mode
+//
 //nolint:lll
 //go:generate enumer -type=CompatibilityMode -transform=snake -trimprefix CompatibilityMode -output compatibility_mode_gen.go
 type CompatibilityMode uint8
@@ -35,7 +36,8 @@ type RuntimeOptions struct {
 	CompatibilityMode null.String `json:"compatibilityMode"`
 
 	// Environment variables passed onto the runner
-	Env map[string]string `json:"env"`
+	Env  map[string]string `json:"env"`
+	Genv map[string]any    `json:"genv"`
 
 	NoThresholds  null.Bool   `json:"noThresholds"`
 	NoSummary     null.Bool   `json:"noSummary"`

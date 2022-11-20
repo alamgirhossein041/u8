@@ -5,10 +5,10 @@ import (
 	"net/http/cookiejar"
 
 	"github.com/dop251/goja"
-	"github.com/uvite/v9/js/common"
-	"github.com/uvite/v9/js/modules"
-	"github.com/uvite/v9/lib/netext"
-	"github.com/uvite/v9/lib/netext/httpext"
+	"github.com/uvite/u8/js/common"
+	"github.com/uvite/u8/js/modules"
+	"github.com/uvite/u8/lib/netext"
+	"github.com/uvite/u8/lib/netext/httpext"
 )
 
 // RootModule is the global module object type. It is instantiated once per test

@@ -11,7 +11,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"github.com/uvite/v9/metrics"
+	"github.com/uvite/u8/metrics"
 )
 
 // TODO: remove globals and use some type of explicit dependency injection?

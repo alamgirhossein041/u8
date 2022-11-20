@@ -6,13 +6,13 @@ import (
 	"encoding/json"
 	"encoding/pem"
 	"fmt"
+	"gopkg.in/guregu/null.v3"
 	"net"
 	"reflect"
 	"strconv"
 
-	"github.com/uvite/v9/lib/types"
-	"github.com/uvite/v9/metrics"
-	"gopkg.in/guregu/null.v3"
+	"github.com/uvite/u8/lib/types"
+	"github.com/uvite/u8/metrics"
 )
 
 // DefaultScenarioName is used as the default key/ID of the scenario config entries

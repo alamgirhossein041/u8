@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/sirupsen/logrus"
-	"github.com/uvite/v9/output"
+	"github.com/uvite/u8/output"
 )
 
 const collectRate = 50 * time.Millisecond

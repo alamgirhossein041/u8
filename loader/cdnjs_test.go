@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/uvite/v9/lib/testutils"
+	"github.com/uvite/u8/lib/testutils"
 )
 
 func TestCDNJS(t *testing.T) {

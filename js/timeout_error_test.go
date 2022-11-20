@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/uvite/v9/lib/consts"
+	"github.com/uvite/u8/lib/consts"
 )
 
 func TestTimeoutError(t *testing.T) {

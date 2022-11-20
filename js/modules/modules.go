@@ -7,8 +7,8 @@ import (
 	"sync"
 
 	"github.com/dop251/goja"
-	"github.com/uvite/v9/js/common"
-	"github.com/uvite/v9/lib"
+	"github.com/uvite/u8/js/common"
+	"github.com/uvite/u8/lib"
 )
 
 const extPrefix string = "k6/x/"

@@ -12,6 +12,7 @@ package js
 //	"encoding/pem"
 //	"fmt"
 //	"go/build"
+//	"gopkg.in/guregu/null.v3"
 //	"io/ioutil"
 //	stdlog "log"
 //	"math/big"
@@ -30,22 +31,22 @@ package js
 //	"github.com/spf13/afero"
 //	"github.com/stretchr/testify/assert"
 //	"github.com/stretchr/testify/require"
-//	"github.com/uvite/v9/core"
-//	"github.com/uvite/v9/core/local"
-//	"github.com/uvite/v9/errext"
-//	"github.com/uvite/v9/js/modules/k6"
-//	k6http "github.com/uvite/v9/js/modules/k6/http"
-//	k6metrics "github.com/uvite/v9/js/modules/k6/metrics"
-//	"github.com/uvite/v9/js/modules/k6/ws"
-//	"github.com/uvite/v9/lib"
-//	_ "github.com/uvite/v9/lib/executor" // TODO: figure out something better
-//	"github.com/uvite/v9/lib/fsext"
-//	"github.com/uvite/v9/lib/testutils"
-//	"github.com/uvite/v9/lib/testutils/httpmultibin"
-//	"github.com/uvite/v9/lib/testutils/mockoutput"
-//	"github.com/uvite/v9/lib/types"
-//	"github.com/uvite/v9/metrics"
-//	"github.com/uvite/v9/output"
+//	"github.com/uvite/u8/core"
+//	"github.com/uvite/u8/core/local"
+//	"github.com/uvite/u8/errext"
+//	"github.com/uvite/u8/js/modules/k6"
+//	k6http "github.com/uvite/u8/js/modules/k6/http"
+//	k6metrics "github.com/uvite/u8/js/modules/k6/metrics"
+//	"github.com/uvite/u8/js/modules/k6/ws"
+//	"github.com/uvite/u8/lib"
+//	_ "github.com/uvite/u8/lib/executor" // TODO: figure out something better
+//	"github.com/uvite/u8/lib/fsext"
+//	"github.com/uvite/u8/lib/testutils"
+//	"github.com/uvite/u8/lib/testutils/httpmultibin"
+//	"github.com/uvite/u8/lib/testutils/mockoutput"
+//	"github.com/uvite/u8/lib/types"
+//	"github.com/uvite/u8/metrics"
+//	"github.com/uvite/u8/output"
 //	"golang.org/x/time/rate"
 //	"google.golang.org/grpc/test/grpc_testing"
 //)
@@ -1027,7 +1028,7 @@ package js
 //			t.Parallel()
 //			r1, err := getSimpleRunner(t, "/script.js", `
 //			  var http = require("k6/http");;
-//        exports.default = function() { http.get("https://mybadssl.localhost/"); }
+//       exports.default = function() { http.get("https://mybadssl.localhost/"); }
 //				`)
 //			require.NoError(t, err)
 //			require.NoError(t, r1.SetOptions(lib.Options{Throw: null.BoolFrom(true)}.Apply(data.opts)))
@@ -2677,15 +2678,15 @@ package js
 //
 //	r1, err := getSimpleRunner(t, "/script.js", `
 //exports.default = () => {
-//    let p = new Promise((res) => {
-//        if (__ITER == 1) {
-//            throw "oops"
-//        }
-//        res("yes");
-//    })
-//    p.then((r) => {
-//        console.log(r);
-//    })
+//   let p = new Promise((res) => {
+//       if (__ITER == 1) {
+//           throw "oops"
+//       }
+//       res("yes");
+//   })
+//   p.then((r) => {
+//       console.log(r);
+//   })
 //}`)
 //	require.NoError(t, err)
 //	registry := metrics.NewRegistry()

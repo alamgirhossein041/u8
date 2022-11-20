@@ -1,0 +1,17 @@
+
+// let abc=ta.rsi(close,5)
+// let aa=ta.series()
+// aa.push("hold")
+// aa.push("buy")
+// aa.push("buy")
+// aa.push("sell")
+// aa.push("sell")
+// let changed=ta.change(aa,2)
+// console.log(abc.tail(5),changed)
+console.log(close.last())
+//console.log(high.last())
+let c=ta.atr(high,low,close,14)
+// let c=ta.sma(fuck,10)
+console.log(c.tail(5))
+
+console.log("==jsend===")

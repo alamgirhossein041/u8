@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/dop251/goja"
-	"github.com/uvite/v9/js/common"
-	"github.com/uvite/v9/js/modules"
+	"github.com/uvite/u8/js/common"
+	"github.com/uvite/u8/js/modules"
 )
 
 type (

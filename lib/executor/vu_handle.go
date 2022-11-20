@@ -7,7 +7,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"github.com/uvite/v9/lib"
+	"github.com/uvite/u8/lib"
 )
 
 type stateType int32

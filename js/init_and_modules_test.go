@@ -11,12 +11,12 @@ import (
 	"github.com/spf13/afero"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/uvite/v9/js"
-	"github.com/uvite/v9/js/modules"
-	"github.com/uvite/v9/lib"
-	"github.com/uvite/v9/lib/testutils"
-	"github.com/uvite/v9/loader"
-	"github.com/uvite/v9/metrics"
+	"github.com/uvite/u8/js"
+	"github.com/uvite/u8/js/modules"
+	"github.com/uvite/u8/lib"
+	"github.com/uvite/u8/lib/testutils"
+	"github.com/uvite/u8/loader"
+	"github.com/uvite/u8/metrics"
 )
 
 type CheckModule struct {

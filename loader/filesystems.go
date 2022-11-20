@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/afero"
 
-	"github.com/uvite/v9/lib/fsext"
+	"github.com/uvite/u8/lib/fsext"
 )
 
 // CreateFilesystems creates the correct filesystem map for the current OS

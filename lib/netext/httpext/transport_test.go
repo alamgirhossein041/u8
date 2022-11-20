@@ -7,8 +7,8 @@ import (
 	"testing"
 
 	"github.com/sirupsen/logrus"
-	"github.com/uvite/v9/lib"
-	"github.com/uvite/v9/metrics"
+	"github.com/uvite/u8/lib"
+	"github.com/uvite/u8/metrics"
 )
 
 func BenchmarkMeasureAndEmitMetrics(b *testing.B) {

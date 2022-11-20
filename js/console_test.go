@@ -14,11 +14,11 @@ import (
 	"github.com/spf13/afero"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/uvite/v9/js/common"
-	"github.com/uvite/v9/lib"
-	"github.com/uvite/v9/lib/testutils"
-	"github.com/uvite/v9/loader"
-	"github.com/uvite/v9/metrics"
+	"github.com/uvite/u8/js/common"
+	"github.com/uvite/u8/lib"
+	"github.com/uvite/u8/lib/testutils"
+	"github.com/uvite/u8/loader"
+	"github.com/uvite/u8/metrics"
 )
 
 func TestConsoleContext(t *testing.T) {

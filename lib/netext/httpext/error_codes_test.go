@@ -21,10 +21,10 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/net/http2"
 
-	"github.com/uvite/v9/lib"
-	"github.com/uvite/v9/lib/netext"
-	"github.com/uvite/v9/lib/testutils/httpmultibin"
-	"github.com/uvite/v9/lib/types"
+	"github.com/uvite/u8/lib"
+	"github.com/uvite/u8/lib/netext"
+	"github.com/uvite/u8/lib/testutils/httpmultibin"
+	"github.com/uvite/u8/lib/types"
 )
 
 func TestDefaultError(t *testing.T) {

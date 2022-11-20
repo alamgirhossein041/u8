@@ -7,9 +7,9 @@ import (
 
 	"github.com/dop251/goja"
 	"github.com/stretchr/testify/require"
-	"github.com/uvite/v9/js/common"
-	"github.com/uvite/v9/js/eventloop"
-	"github.com/uvite/v9/js/modulestest"
+	"github.com/uvite/u8/js/common"
+	"github.com/uvite/u8/js/eventloop"
+	"github.com/uvite/u8/js/modulestest"
 )
 
 func TestTaskQueue(t *testing.T) {

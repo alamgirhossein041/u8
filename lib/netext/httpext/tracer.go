@@ -2,13 +2,13 @@ package httpext
 
 import (
 	"crypto/tls"
+	"gopkg.in/guregu/null.v3"
 	"net"
 	"net/http/httptrace"
 	"sync/atomic"
 	"time"
 
-	"github.com/uvite/v9/metrics"
-	"gopkg.in/guregu/null.v3"
+	"github.com/uvite/u8/metrics"
 )
 
 // A Trail represents detailed information about an HTTP request.

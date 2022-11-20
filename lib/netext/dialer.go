@@ -8,9 +8,9 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/uvite/v9/lib"
-	"github.com/uvite/v9/lib/types"
-	"github.com/uvite/v9/metrics"
+	"github.com/uvite/u8/lib"
+	"github.com/uvite/u8/lib/types"
+	"github.com/uvite/u8/metrics"
 )
 
 // Dialer wraps net.Dialer and provides k6 specific functionality -

@@ -19,11 +19,11 @@ import (
 	"github.com/dop251/goja"
 	"github.com/gorilla/websocket"
 
-	"github.com/uvite/v9/js/common"
-	"github.com/uvite/v9/js/modules"
-	httpModule "github.com/uvite/v9/js/modules/k6/http"
-	"github.com/uvite/v9/lib"
-	"github.com/uvite/v9/metrics"
+	"github.com/uvite/u8/js/common"
+	"github.com/uvite/u8/js/modules"
+	httpModule "github.com/uvite/u8/js/modules/k6/http"
+	"github.com/uvite/u8/lib"
+	"github.com/uvite/u8/metrics"
 )
 
 type (

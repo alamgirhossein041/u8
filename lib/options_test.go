@@ -3,6 +3,7 @@ package lib
 import (
 	"crypto/tls"
 	"encoding/json"
+	"gopkg.in/guregu/null.v3"
 	"net"
 	"reflect"
 	"testing"
@@ -11,8 +12,8 @@ import (
 	"github.com/kelseyhightower/envconfig"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/uvite/v9/lib/types"
-	"github.com/uvite/v9/metrics"
+	"github.com/uvite/u8/lib/types"
+	"github.com/uvite/u8/metrics"
 )
 
 func TestOptions(t *testing.T) {

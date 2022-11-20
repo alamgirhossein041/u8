@@ -11,8 +11,8 @@ import (
 	"github.com/mailru/easyjson/jwriter"
 	"github.com/sirupsen/logrus"
 
-	"github.com/uvite/v9/metrics"
-	"github.com/uvite/v9/output"
+	"github.com/uvite/u8/metrics"
+	"github.com/uvite/u8/output"
 )
 
 // TODO: add option for emitting proper JSON files (https://github.com/k6io/k6/issues/737)

@@ -5,7 +5,7 @@ import (
 	"io"
 	"time"
 
-	"github.com/uvite/v9/metrics"
+	"github.com/uvite/u8/metrics"
 )
 
 // ActiveVU represents an actively running virtual user.

@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/uvite/v9/js/common"
+	"github.com/uvite/u8/js/common"
 )
 
 // FileData represents a binary file requiring multipart request encoding

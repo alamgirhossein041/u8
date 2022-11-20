@@ -9,9 +9,9 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"github.com/uvite/v9/errext"
-	"github.com/uvite/v9/lib"
-	"github.com/uvite/v9/lib/types"
+	"github.com/uvite/u8/errext"
+	"github.com/uvite/u8/lib"
+	"github.com/uvite/u8/lib/types"
 )
 
 func sumStagesDuration(stages []Stage) (result time.Duration) {

@@ -2,7 +2,7 @@ package data
 
 import (
 	"github.com/dop251/goja"
-	"github.com/uvite/v9/js/common"
+	"github.com/uvite/u8/js/common"
 )
 
 // TODO fix it not working really well with setupData or just make it more broken

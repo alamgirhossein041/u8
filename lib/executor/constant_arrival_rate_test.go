@@ -12,9 +12,9 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/uvite/v9/lib"
-	"github.com/uvite/v9/lib/types"
-	"github.com/uvite/v9/metrics"
+	"github.com/uvite/u8/lib"
+	"github.com/uvite/u8/lib/types"
+	"github.com/uvite/u8/metrics"
 )
 
 func newExecutionSegmentFromString(str string) *lib.ExecutionSegment {

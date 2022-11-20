@@ -1,6 +1,6 @@
 package executor
 
-import "github.com/uvite/v9/metrics"
+import "github.com/uvite/u8/metrics"
 
 func sumMetricValues(samples chan metrics.SampleContainer, metricName string) (sum float64) { //nolint:unparam
 	for _, sc := range metrics.GetBufferedSamples(samples) {

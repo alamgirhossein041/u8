@@ -13,7 +13,7 @@ import (
 
 	"golang.org/x/net/http2"
 
-	"github.com/uvite/v9/lib/netext"
+	"github.com/uvite/u8/lib/netext"
 )
 
 // TODO: maybe rename the type errorCode, so we can have errCode variables? and

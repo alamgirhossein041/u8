@@ -15,7 +15,7 @@ import (
 	"github.com/go-sourcemap/sourcemap"
 	"github.com/sirupsen/logrus"
 
-	"github.com/uvite/v9/lib"
+	"github.com/uvite/u8/lib"
 )
 
 //go:embed lib/babel.min.js

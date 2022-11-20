@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/uvite/v9/lib/types"
+	"github.com/uvite/u8/lib/types"
 )
 
 func TestStageJSON(t *testing.T) {

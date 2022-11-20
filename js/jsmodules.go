@@ -1,28 +1,30 @@
 package js
 
 import (
-	"github.com/uvite/v9/js/modules"
-	"github.com/uvite/v9/js/modules/k6"
-	"github.com/uvite/v9/js/modules/k6/crypto"
-	"github.com/uvite/v9/js/modules/k6/crypto/x509"
-	"github.com/uvite/v9/js/modules/k6/data"
-	"github.com/uvite/v9/js/modules/k6/encoding"
-	"github.com/uvite/v9/js/modules/k6/execution"
-	"github.com/uvite/v9/js/modules/k6/grpc"
-	"github.com/uvite/v9/js/modules/k6/html"
-	"github.com/uvite/v9/js/modules/k6/http"
-	"github.com/uvite/v9/js/modules/k6/metrics"
-	"github.com/uvite/v9/js/modules/k6/ws"
-	"github.com/uvite/v9/plugin/xk6-redis/redis"
-	"github.com/uvite/v9/plugin/xk6-timers/timers"
+	"github.com/uvite/u8/js/modules"
+	"github.com/uvite/u8/js/modules/k6"
+	"github.com/uvite/u8/js/modules/k6/crypto"
+	"github.com/uvite/u8/js/modules/k6/crypto/x509"
+	"github.com/uvite/u8/js/modules/k6/data"
+	"github.com/uvite/u8/js/modules/k6/encoding"
+	"github.com/uvite/u8/js/modules/k6/execution"
+	"github.com/uvite/u8/js/modules/k6/grpc"
+	"github.com/uvite/u8/js/modules/k6/html"
+	"github.com/uvite/u8/js/modules/k6/http"
+	"github.com/uvite/u8/js/modules/k6/metrics"
+	"github.com/uvite/u8/js/modules/k6/ta"
+	"github.com/uvite/u8/js/modules/k6/ws"
+	"github.com/uvite/u8/plugin/xk6-redis/redis"
+	"github.com/uvite/u8/plugin/xk6-timers/timers"
 
-	expws "github.com/uvite/v9/plugin/xk6-websockets/websockets"
+	expws "github.com/uvite/u8/plugin/xk6-websockets/websockets"
 )
 
 func getInternalJSModules() map[string]interface{} {
 	return map[string]interface{}{
 		"k6":                         k6.New(),
 		"k6/crypto":                  crypto.New(),
+		"k6/ta":                      ta.New(),
 		"k6/crypto/x509":             x509.New(),
 		"k6/data":                    data.New(),
 		"k6/encoding":                encoding.New(),

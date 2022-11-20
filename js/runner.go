@@ -22,16 +22,16 @@ import (
 	"golang.org/x/net/http2"
 	"golang.org/x/time/rate"
 
-	"github.com/uvite/v9/errext"
-	"github.com/uvite/v9/errext/exitcodes"
-	"github.com/uvite/v9/js/common"
-	"github.com/uvite/v9/js/eventloop"
-	"github.com/uvite/v9/lib"
-	"github.com/uvite/v9/lib/consts"
-	"github.com/uvite/v9/lib/netext"
-	"github.com/uvite/v9/lib/types"
-	"github.com/uvite/v9/loader"
-	"github.com/uvite/v9/metrics"
+	"github.com/uvite/u8/errext"
+	"github.com/uvite/u8/errext/exitcodes"
+	"github.com/uvite/u8/js/common"
+	"github.com/uvite/u8/js/eventloop"
+	"github.com/uvite/u8/lib"
+	"github.com/uvite/u8/lib/consts"
+	"github.com/uvite/u8/lib/netext"
+	"github.com/uvite/u8/lib/types"
+	"github.com/uvite/u8/loader"
+	"github.com/uvite/u8/metrics"
 )
 
 // Ensure Runner implements the lib.Runner interface

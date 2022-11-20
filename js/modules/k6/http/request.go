@@ -14,9 +14,9 @@ import (
 	"time"
 
 	"github.com/dop251/goja"
-	"github.com/uvite/v9/js/common"
-	"github.com/uvite/v9/lib/netext/httpext"
-	"github.com/uvite/v9/lib/types"
+	"github.com/uvite/u8/js/common"
+	"github.com/uvite/u8/lib/netext/httpext"
+	"github.com/uvite/u8/lib/types"
 )
 
 // ErrHTTPForbiddenInInitContext is used when a http requests was made in the init context
