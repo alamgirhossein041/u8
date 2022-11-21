@@ -1,6 +1,5 @@
 
-import { someHelper } from '/u8/k6/pmkoo/func.js';
-import http from 'k6/http';
+
 import ta from "k6/ta";
 // export function setup() {
 // 	const res = http.get('https://httpbin.test.k6.io/get');
@@ -19,7 +18,7 @@ export default function (data) {
 	// console.log(JSON.stringify(data));
 
 
-
+	console.log("=========")
 	let bb=ta.boll("SMA",close,20,2,2)
 
 	console.log("=========")

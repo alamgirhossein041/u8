@@ -318,6 +318,12 @@ func (b *Bundle) instantiate(logger logrus.FieldLogger, rt *goja.Runtime, init *
 		env[key] = value
 	}
 	rt.Set("__ENV", env)
+
+	//genv := make(map[string]string, len(b.RuntimeOptions.Genv))
+	for key, value := range b.RuntimeOptions.Genv {
+		rt.Set(key, value)
+	}
+
 	rt.Set("__VU", vuID)
 	_ = rt.Set("console", newConsole(logger))
 

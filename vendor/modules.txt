@@ -30,6 +30,14 @@ github.com/andybalholm/cascadia
 # github.com/bitly/go-simplejson v0.5.0
 ## explicit
 github.com/bitly/go-simplejson
+# github.com/c9s/bbgo v1.42.0
+## explicit; go 1.17
+github.com/c9s/bbgo/pkg/datatype/floats
+github.com/c9s/bbgo/pkg/fixedpoint
+github.com/c9s/bbgo/pkg/sigchan
+github.com/c9s/bbgo/pkg/style
+github.com/c9s/bbgo/pkg/types
+github.com/c9s/bbgo/pkg/util/templateutil
 # github.com/cespare/xxhash/v2 v2.1.2
 ## explicit; go 1.11
 github.com/cespare/xxhash/v2
@@ -169,6 +177,9 @@ github.com/mailru/easyjson
 github.com/mailru/easyjson/buffer
 github.com/mailru/easyjson/jlexer
 github.com/mailru/easyjson/jwriter
+# github.com/markcheno/go-talib v0.0.0-20190307022042-cd53a9264d70
+## explicit
+github.com/markcheno/go-talib
 # github.com/mattn/go-colorable v0.1.13
 ## explicit; go 1.15
 github.com/mattn/go-colorable
@@ -195,12 +206,22 @@ github.com/modern-go/reflect2
 # github.com/mstoykov/atlas v0.0.0-20220811071828-388f114305dd
 ## explicit; go 1.18
 github.com/mstoykov/atlas
-# github.com/mstoykov/envconfig v1.4.1-0.20220114105314-765c6d8c76f1
-## explicit
-github.com/mstoykov/envconfig
 # github.com/mstoykov/k6-taskqueue-lib v0.1.0
 ## explicit; go 1.17
 github.com/mstoykov/k6-taskqueue-lib/taskqueue
+# github.com/nats-io/nats-server/v2 v2.9.7
+## explicit; go 1.19
+# github.com/nats-io/nats.go v1.20.0
+## explicit; go 1.16
+github.com/nats-io/nats.go
+github.com/nats-io/nats.go/encoders/builtin
+github.com/nats-io/nats.go/util
+# github.com/nats-io/nkeys v0.3.0
+## explicit; go 1.16
+github.com/nats-io/nkeys
+# github.com/nats-io/nuid v1.0.1
+## explicit
+github.com/nats-io/nuid
 # github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d
 ## explicit
 github.com/nu7hatch/gouuid
@@ -222,7 +243,7 @@ github.com/rivo/uniseg
 # github.com/serenize/snaker v0.0.0-20201027110005-a7ad2135616e
 ## explicit
 github.com/serenize/snaker
-# github.com/shopspring/decimal v1.2.0
+# github.com/shopspring/decimal v1.3.1
 ## explicit; go 1.13
 github.com/shopspring/decimal
 # github.com/sirupsen/logrus v1.9.0
@@ -273,15 +294,6 @@ github.com/tidwall/match
 # github.com/tidwall/pretty v1.2.1
 ## explicit; go 1.16
 github.com/tidwall/pretty
-# github.com/uvite/indicator v0.0.0-20221121175617-a400943be929 => ../indicator
-## explicit; go 1.19
-github.com/uvite/indicator/fixedpoint
-github.com/uvite/indicator/floats
-github.com/uvite/indicator/indicator
-github.com/uvite/indicator/sigchan
-github.com/uvite/indicator/style
-github.com/uvite/indicator/types
-github.com/uvite/indicator/util/templateutil
 # github.com/wcharczuk/go-chart/v2 v2.1.0
 ## explicit; go 1.15
 github.com/wcharczuk/go-chart/v2
@@ -302,16 +314,20 @@ go.k6.io/k6/metrics
 go.k6.io/k6/ui/pb
 # golang.org/x/crypto v0.3.0
 ## explicit; go 1.17
+golang.org/x/crypto/ed25519
 golang.org/x/crypto/md4
 golang.org/x/crypto/ocsp
 golang.org/x/crypto/ripemd160
+# golang.org/x/exp v0.0.0-20221114191408-850992195362
+## explicit; go 1.18
+golang.org/x/exp/constraints
 # golang.org/x/image v0.0.0-20220302094943-723b81ca9867
 ## explicit; go 1.12
 golang.org/x/image/draw
 golang.org/x/image/font
 golang.org/x/image/math/f64
 golang.org/x/image/math/fixed
-# golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4
+# golang.org/x/mod v0.6.0
 ## explicit; go 1.17
 golang.org/x/mod/semver
 # golang.org/x/net v0.2.0
@@ -353,7 +369,7 @@ golang.org/x/text/unicode/rangetable
 # golang.org/x/time v0.2.0
 ## explicit
 golang.org/x/time/rate
-# golang.org/x/tools v0.1.12
+# golang.org/x/tools v0.2.0
 ## explicit; go 1.18
 golang.org/x/tools/cmd/stringer
 golang.org/x/tools/go/gcexportdata
@@ -388,8 +404,8 @@ gonum.org/v1/gonum/lapack/gonum
 gonum.org/v1/gonum/lapack/lapack64
 gonum.org/v1/gonum/mat
 gonum.org/v1/gonum/stat
-# google.golang.org/genproto v0.0.0-20210604141403-392c879c8b08
-## explicit; go 1.11
+# google.golang.org/genproto v0.0.0-20220405205423-9d709892a2bf
+## explicit; go 1.15
 google.golang.org/genproto/googleapis/rpc/status
 google.golang.org/genproto/protobuf/api
 google.golang.org/genproto/protobuf/field_mask
@@ -503,3 +519,7 @@ gopkg.in/yaml.v2
 # gopkg.in/yaml.v3 v3.0.1
 ## explicit
 gopkg.in/yaml.v3
+# xk6-nats v0.0.0-00010101000000-000000000000 => ./plugin/xk6-nats/
+## explicit; go 1.19
+xk6-nats
+# xk6-nats => ./plugin/xk6-nats/
