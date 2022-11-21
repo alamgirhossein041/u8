@@ -2,6 +2,8 @@ package executor
 
 import (
 	"github.com/sirupsen/logrus"
+	"gopkg.in/guregu/null.v3"
+
 	"github.com/uvite/u8/lib"
 	"github.com/uvite/u8/lib/types"
 )

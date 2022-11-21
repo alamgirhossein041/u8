@@ -8,9 +8,12 @@ import (
 	"time"
 
 	"github.com/sirupsen/logrus"
+	"gopkg.in/guregu/null.v3"
+
 	"github.com/uvite/u8/lib"
 	"github.com/uvite/u8/lib/types"
 	"github.com/uvite/u8/metrics"
+	"github.com/uvite/u8/ui/pb"
 )
 
 const perVUIterationsType = "per-vu-iterations"
@@ -147,13 +150,40 @@ func (pvi PerVUIterations) Run(parentCtx context.Context, out chan<- metrics.Sam
 		"vus": numVUs, "iterations": iterations, "maxDuration": duration, "type": pvi.config.GetType(),
 	}).Debug("Starting executor run...")
 
+	totalIters := uint64(numVUs * iterations)
 	doneIters := new(uint64)
 
+	vusFmt := pb.GetFixedLengthIntFormat(numVUs)
+	itersFmt := pb.GetFixedLengthIntFormat(int64(totalIters))
+	progressFn := func() (float64, []string) {
+		spent := time.Since(startTime)
+		progVUs := fmt.Sprintf(vusFmt+" VUs", numVUs)
+		currentDoneIters := atomic.LoadUint64(doneIters)
+		progIters := fmt.Sprintf(itersFmt+"/"+itersFmt+" iters, %d per VU",
+			currentDoneIters, totalIters, iterations)
+		right := []string{progVUs, duration.String(), progIters}
+		if spent > duration {
+			return 1, right
+		}
+
+		spentDuration := pb.GetFixedLengthDuration(spent, duration)
+		progDur := fmt.Sprintf("%s/%s", spentDuration, duration)
+		right[1] = progDur
+
+		return float64(currentDoneIters) / float64(totalIters), right
+	}
+	pvi.progress.Modify(pb.WithProgress(progressFn))
+
 	maxDurationCtx = lib.WithScenarioState(maxDurationCtx, &lib.ScenarioState{
-		Name:      pvi.config.Name,
-		Executor:  pvi.config.Type,
-		StartTime: startTime,
+		Name:       pvi.config.Name,
+		Executor:   pvi.config.Type,
+		StartTime:  startTime,
+		ProgressFn: progressFn,
 	})
+	go func() {
+		trackProgress(parentCtx, maxDurationCtx, regDurationCtx, pvi, progressFn)
+		close(waitOnProgressChannel)
+	}()
 
 	handleVUsWG := &sync.WaitGroup{}
 	defer handleVUsWG.Wait()

@@ -36,6 +36,8 @@ import (
 	logtest "github.com/sirupsen/logrus/hooks/test"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"gopkg.in/guregu/null.v3"
+
 	"github.com/uvite/u8/js/modulestest"
 	"github.com/uvite/u8/lib"
 	"github.com/uvite/u8/lib/netext"

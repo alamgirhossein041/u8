@@ -10,6 +10,7 @@ import (
 	"github.com/uvite/u8/errext"
 	"github.com/uvite/u8/errext/exitcodes"
 	"github.com/uvite/u8/lib/types"
+	"gopkg.in/guregu/null.v3"
 )
 
 func TestNewThreshold(t *testing.T) {

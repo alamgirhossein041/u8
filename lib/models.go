@@ -5,12 +5,14 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"errors"
-	"github.com/uvite/u8/lib/types"
-	"gopkg.in/guregu/null.v3"
 	"strconv"
 	"strings"
 	"sync"
 	"time"
+
+	"gopkg.in/guregu/null.v3"
+
+	"github.com/uvite/u8/lib/types"
 )
 
 // Separator for group IDs.

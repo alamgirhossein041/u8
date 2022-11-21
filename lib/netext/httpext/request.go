@@ -5,11 +5,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/Azure/go-ntlmssp"
-	"github.com/sirupsen/logrus"
-	"github.com/uvite/u8/lib"
-	"github.com/uvite/u8/metrics"
-	"gopkg.in/guregu/null.v3"
 	"io"
 	"io/ioutil"
 	"net"
@@ -18,6 +13,13 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/Azure/go-ntlmssp"
+	"github.com/sirupsen/logrus"
+	"gopkg.in/guregu/null.v3"
+
+	"github.com/uvite/u8/lib"
+	"github.com/uvite/u8/metrics"
 )
 
 // HTTPRequestCookie is a representation of a cookie used for request objects
@@ -108,7 +110,6 @@ func updateK6Response(k6Response *Response, finishedReq *finishedRequest) {
 // MakeRequest makes http request for tor the provided ParsedHTTPRequest.
 //
 // TODO: split apart...
-//
 //nolint:cyclop, gocyclo, funlen, gocognit
 func MakeRequest(ctx context.Context, state *lib.State, preq *ParsedHTTPRequest) (*Response, error) {
 	respReq := &Request{

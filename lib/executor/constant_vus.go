@@ -3,14 +3,16 @@ package executor
 import (
 	"context"
 	"fmt"
-	"gopkg.in/guregu/null.v3"
 	"sync"
 	"time"
 
 	"github.com/sirupsen/logrus"
+	"gopkg.in/guregu/null.v3"
+
 	"github.com/uvite/u8/lib"
 	"github.com/uvite/u8/lib/types"
 	"github.com/uvite/u8/metrics"
+	"github.com/uvite/u8/ui/pb"
 )
 
 const constantVUsType = "constant-vus"
@@ -126,7 +128,7 @@ func (clv ConstantVUs) Run(parentCtx context.Context, out chan<- metrics.SampleC
 	gracefulStop := clv.config.GetGracefulStop()
 
 	waitOnProgressChannel := make(chan struct{})
-	_, maxDurationCtx, regDurationCtx, cancel := getDurationContexts(parentCtx, duration, gracefulStop)
+	startTime, maxDurationCtx, regDurationCtx, cancel := getDurationContexts(parentCtx, duration, gracefulStop)
 	defer func() {
 		cancel()
 		<-waitOnProgressChannel
@@ -136,6 +138,30 @@ func (clv ConstantVUs) Run(parentCtx context.Context, out chan<- metrics.SampleC
 	clv.logger.WithFields(
 		logrus.Fields{"vus": numVUs, "duration": duration, "type": clv.config.GetType()},
 	).Debug("Starting executor run...")
+
+	progressFn := func() (float64, []string) {
+		spent := time.Since(startTime)
+		right := []string{fmt.Sprintf("%d VUs", numVUs)}
+		if spent > duration {
+			right = append(right, duration.String())
+			return 1, right
+		}
+		right = append(right, fmt.Sprintf("%s/%s",
+			pb.GetFixedLengthDuration(spent, duration), duration))
+		return float64(spent) / float64(duration), right
+	}
+	clv.progress.Modify(pb.WithProgress(progressFn))
+	maxDurationCtx = lib.WithScenarioState(maxDurationCtx, &lib.ScenarioState{
+		Name:       clv.config.Name,
+		Executor:   clv.config.Type,
+		StartTime:  startTime,
+		ProgressFn: progressFn,
+	})
+
+	go func() {
+		trackProgress(parentCtx, maxDurationCtx, regDurationCtx, clv, progressFn)
+		close(waitOnProgressChannel)
+	}()
 
 	// Actually schedule the VUs and iterations...
 	activeVUs := &sync.WaitGroup{}

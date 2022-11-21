@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"gopkg.in/guregu/null.v3"
 	"mime/multipart"
 	"net/http"
 	"net/textproto"
@@ -14,6 +13,8 @@ import (
 	"time"
 
 	"github.com/dop251/goja"
+	"gopkg.in/guregu/null.v3"
+
 	"github.com/uvite/u8/js/common"
 	"github.com/uvite/u8/lib/netext/httpext"
 	"github.com/uvite/u8/lib/types"

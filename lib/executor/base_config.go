@@ -2,10 +2,11 @@ package executor
 
 import (
 	"fmt"
-	"gopkg.in/guregu/null.v3"
 	"regexp"
 	"strings"
 	"time"
+
+	"gopkg.in/guregu/null.v3"
 
 	"github.com/uvite/u8/lib/consts"
 	"github.com/uvite/u8/lib/types"

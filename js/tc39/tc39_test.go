@@ -23,6 +23,7 @@ import (
 	"github.com/uvite/u8/js/compiler"
 	"github.com/uvite/u8/lib"
 	"github.com/uvite/u8/lib/testutils"
+	"gopkg.in/yaml.v3"
 )
 
 const (

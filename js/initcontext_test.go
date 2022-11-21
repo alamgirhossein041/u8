@@ -50,7 +50,7 @@ func TestInitContextRequire(t *testing.T) {
 			bi, err := b.Instantiate(logger, 0)
 			assert.NoError(t, err, "instance error")
 
-			exports := bi.Pgm.Exports
+			exports := bi.pgm.exports
 			require.NotNil(t, exports)
 			_, defaultOk := goja.AssertFunction(exports.Get("default"))
 			assert.True(t, defaultOk, "default export is not a function")
@@ -76,7 +76,7 @@ func TestInitContextRequire(t *testing.T) {
 			bi, err := b.Instantiate(logger, 0)
 			require.NoError(t, err)
 
-			exports := bi.Pgm.Exports
+			exports := bi.pgm.exports
 			require.NotNil(t, exports)
 			_, defaultOk := goja.AssertFunction(exports.Get("default"))
 			assert.True(t, defaultOk, "default export is not a function")
@@ -209,7 +209,7 @@ func TestInitContextRequire(t *testing.T) {
 
 			bi, err := b.Instantiate(logger, 0)
 			require.NoError(t, err)
-			_, err = bi.GetCallableExport(consts.DefaultFn)(goja.Undefined())
+			_, err = bi.getCallableExport(consts.DefaultFn)(goja.Undefined())
 			assert.NoError(t, err)
 		})
 	})
@@ -364,7 +364,7 @@ func TestRequestWithBinaryFile(t *testing.T) {
 
 	registry := metrics.NewRegistry()
 	builtinMetrics := metrics.RegisterBuiltinMetrics(registry)
-	bi.ModuleVUImpl.state = &lib.State{
+	bi.moduleVUImpl.state = &lib.State{
 		Options: lib.Options{},
 		Logger:  logger,
 		Group:   root,
@@ -386,9 +386,9 @@ func TestRequestWithBinaryFile(t *testing.T) {
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	bi.ModuleVUImpl.Ctx = ctx
+	bi.moduleVUImpl.ctx = ctx
 
-	v, err := bi.GetCallableExport(consts.DefaultFn)(goja.Undefined())
+	v, err := bi.getCallableExport(consts.DefaultFn)(goja.Undefined())
 	require.NoError(t, err)
 	require.NotNil(t, v)
 	assert.Equal(t, true, v.Export())
@@ -511,7 +511,7 @@ func TestRequestWithMultipleBinaryFiles(t *testing.T) {
 
 	registry := metrics.NewRegistry()
 	builtinMetrics := metrics.RegisterBuiltinMetrics(registry)
-	bi.ModuleVUImpl.state = &lib.State{
+	bi.moduleVUImpl.state = &lib.State{
 		Options: lib.Options{},
 		Logger:  logger,
 		Group:   root,
@@ -533,9 +533,9 @@ func TestRequestWithMultipleBinaryFiles(t *testing.T) {
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	bi.ModuleVUImpl.Ctx = ctx
+	bi.moduleVUImpl.ctx = ctx
 
-	v, err := bi.GetCallableExport(consts.DefaultFn)(goja.Undefined())
+	v, err := bi.getCallableExport(consts.DefaultFn)(goja.Undefined())
 	require.NoError(t, err)
 	require.NotNil(t, v)
 	assert.Equal(t, true, v.Export())
@@ -552,7 +552,7 @@ func TestInitContextVU(t *testing.T) {
 	require.NoError(t, err)
 	bi, err := b.Instantiate(testutils.NewLogger(t), 5)
 	require.NoError(t, err)
-	v, err := bi.GetCallableExport(consts.DefaultFn)(goja.Undefined())
+	v, err := bi.getCallableExport(consts.DefaultFn)(goja.Undefined())
 	require.NoError(t, err)
 	assert.Equal(t, int64(5), v.Export())
 }
@@ -585,7 +585,7 @@ export default function(){
 
 	bi, err := b.Instantiate(logger, 0)
 	require.NoError(t, err)
-	_, err = bi.GetCallableExport(consts.DefaultFn)(goja.Undefined())
+	_, err = bi.getCallableExport(consts.DefaultFn)(goja.Undefined())
 	require.Error(t, err)
 	exception := new(goja.Exception)
 	require.ErrorAs(t, err, &exception)
@@ -616,7 +616,7 @@ export default function () {
 
 	bi, err := b.Instantiate(logger, 0)
 	require.NoError(t, err)
-	_, err = bi.GetCallableExport(consts.DefaultFn)(goja.Undefined())
+	_, err = bi.getCallableExport(consts.DefaultFn)(goja.Undefined())
 	require.Error(t, err)
 	exception := new(goja.Exception)
 	require.ErrorAs(t, err, &exception)
@@ -648,7 +648,7 @@ export default function () {
 
 	bi, err := b.Instantiate(logger, 0)
 	require.NoError(t, err)
-	_, err = bi.GetCallableExport(consts.DefaultFn)(goja.Undefined())
+	_, err = bi.getCallableExport(consts.DefaultFn)(goja.Undefined())
 	require.Error(t, err)
 	exception := new(goja.Exception)
 	require.ErrorAs(t, err, &exception)
@@ -679,7 +679,7 @@ export default function () {
 
 	bi, err := b.Instantiate(logger, 0)
 	require.NoError(t, err)
-	_, err = bi.GetCallableExport(consts.DefaultFn)(goja.Undefined())
+	_, err = bi.getCallableExport(consts.DefaultFn)(goja.Undefined())
 	require.Error(t, err)
 	exception := new(goja.Exception)
 	require.ErrorAs(t, err, &exception)

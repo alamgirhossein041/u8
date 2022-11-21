@@ -3,13 +3,14 @@ package js
 import (
 	"bytes"
 	"context"
-	"gopkg.in/guregu/null.v3"
 	"os"
 	"testing"
 	"time"
 
 	"github.com/spf13/afero"
 	"github.com/stretchr/testify/require"
+	"gopkg.in/guregu/null.v3"
+
 	"github.com/uvite/u8/lib"
 	"github.com/uvite/u8/lib/testutils"
 	"github.com/uvite/u8/lib/testutils/httpmultibin"

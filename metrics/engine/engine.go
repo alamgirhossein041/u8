@@ -11,6 +11,7 @@ import (
 	"github.com/uvite/u8/lib"
 	"github.com/uvite/u8/metrics"
 	"github.com/uvite/u8/output"
+	"gopkg.in/guregu/null.v3"
 )
 
 // MetricsEngine is the internal metrics engine that k6 uses to keep track of

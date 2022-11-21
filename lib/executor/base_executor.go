@@ -9,6 +9,7 @@ import (
 
 	"github.com/uvite/u8/lib"
 	"github.com/uvite/u8/metrics"
+	"github.com/uvite/u8/ui/pb"
 )
 
 // BaseExecutor is a helper struct that contains common properties and methods
@@ -21,6 +22,7 @@ type BaseExecutor struct {
 	iterSegIndexMx *sync.Mutex
 	iterSegIndex   *lib.SegmentedIndex
 	logger         *logrus.Entry
+	progress       *pb.ProgressBar
 }
 
 // NewBaseExecutor returns an initialized BaseExecutor
@@ -32,6 +34,10 @@ func NewBaseExecutor(config lib.ExecutorConfig, es *lib.ExecutionState, logger *
 		logger:         logger,
 		iterSegIndexMx: new(sync.Mutex),
 		iterSegIndex:   segIdx,
+		progress: pb.New(
+			pb.WithLeft(config.GetName),
+			pb.WithLogger(logger),
+		),
 	}
 }
 
@@ -57,6 +63,11 @@ func (bs *BaseExecutor) GetConfig() lib.ExecutorConfig {
 // GetLogger returns the executor logger entry.
 func (bs *BaseExecutor) GetLogger() *logrus.Entry {
 	return bs.logger
+}
+
+// GetProgress just returns the progressbar pointer.
+func (bs *BaseExecutor) GetProgress() *pb.ProgressBar {
+	return bs.progress
 }
 
 // getMetricTags returns a tag set that can be used to emit metrics by the

@@ -3,15 +3,16 @@ package lib
 import (
 	"crypto/tls"
 	"encoding/json"
-	"gopkg.in/guregu/null.v3"
 	"net"
 	"reflect"
 	"testing"
 	"time"
 
-	"github.com/kelseyhightower/envconfig"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"github.com/uvite/u8/envconfig"
+	"gopkg.in/guregu/null.v3"
+
 	"github.com/uvite/u8/lib/types"
 	"github.com/uvite/u8/metrics"
 )

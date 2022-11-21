@@ -7,7 +7,9 @@ import (
 	"github.com/uvite/u8/metrics"
 )
 
-type InitState struct {
+// TestPreInitState contains all of the state that can be gathered and built
+// before the test run is initialized.
+type TestPreInitState struct {
 	RuntimeOptions RuntimeOptions
 	Registry       *metrics.Registry
 	BuiltinMetrics *metrics.BuiltinMetrics
@@ -20,7 +22,7 @@ type InitState struct {
 // TestRunState contains the pre-init state as well as all of the state and
 // options that are necessary for actually running the test.
 type TestRunState struct {
-	*InitState
+	*TestPreInitState
 
 	Options Options
 	Runner  Runner // TODO: rename to something better, see type comment

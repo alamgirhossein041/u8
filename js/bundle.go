@@ -6,13 +6,14 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"gopkg.in/guregu/null.v3"
 	"net/url"
 	"runtime"
 
 	"github.com/dop251/goja"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/afero"
+	"gopkg.in/guregu/null.v3"
+
 	"github.com/uvite/u8/js/common"
 	"github.com/uvite/u8/js/compiler"
 	"github.com/uvite/u8/js/eventloop"
@@ -29,7 +30,6 @@ type Bundle struct {
 	Source   string
 	Program  *goja.Program
 	Options  lib.Options
-	Vm       *goja.Runtime
 
 	BaseInitContext *InitContext
 
@@ -38,6 +38,8 @@ type Bundle struct {
 	registry          *metrics.Registry
 
 	exports map[string]goja.Callable
+
+	Vm *goja.Runtime
 }
 
 // A BundleInstance is a self-contained instance of a Bundle.
@@ -48,25 +50,21 @@ type BundleInstance struct {
 	env map[string]string
 
 	exports      map[string]goja.Callable
-	ModuleVUImpl *moduleVUImpl
-	Pgm          programWithSource
+	moduleVUImpl *moduleVUImpl
+	pgm          programWithSource
 }
 
-func (bi *BundleInstance) GetCallableExport(name string) goja.Callable {
+func (bi *BundleInstance) getCallableExport(name string) goja.Callable {
 	return bi.exports[name]
 }
 
 func (bi *BundleInstance) getExported(name string) goja.Value {
-	return bi.Pgm.Exports.Get(name)
-}
-
-func (bi *BundleInstance) GetExported(name string) goja.Value {
-	return bi.Pgm.Exports.Get(name)
+	return bi.pgm.exports.Get(name)
 }
 
 // NewBundle creates a new bundle from a source file and a filesystem.
 func NewBundle(
-	piState *lib.InitState, src *loader.SourceData, filesystems map[string]afero.Fs,
+	piState *lib.TestPreInitState, src *loader.SourceData, filesystems map[string]afero.Fs,
 ) (*Bundle, error) {
 	compatMode, err := lib.ValidateCompatibilityMode(piState.RuntimeOptions.CompatibilityMode.String)
 	if err != nil {
@@ -96,7 +94,6 @@ func NewBundle(
 		CompatibilityMode: compatMode,
 		exports:           make(map[string]goja.Callable),
 		registry:          piState.Registry,
-		Vm:                rt,
 	}
 	if err = bundle.instantiate(piState.Logger, rt, bundle.BaseInitContext, 0); err != nil {
 		return nil, err
@@ -111,7 +108,7 @@ func NewBundle(
 }
 
 // NewBundleFromArchive creates a new bundle from an lib.Archive.
-func NewBundleFromArchive(piState *lib.InitState, arc *lib.Archive) (*Bundle, error) {
+func NewBundleFromArchive(piState *lib.TestPreInitState, arc *lib.Archive) (*Bundle, error) {
 	if arc.Type != "js" {
 		return nil, fmt.Errorf("expected bundle type 'js', got '%s'", arc.Type)
 	}
@@ -247,9 +244,6 @@ func (b *Bundle) getExports(logger logrus.FieldLogger, rt *goja.Runtime, options
 func (b *Bundle) Instantiate(logger logrus.FieldLogger, vuID uint64) (*BundleInstance, error) {
 	// Instantiate the bundle into a new VM using a bound init context. This uses a context with a
 	// runtime, but no state, to allow module-provided types to function within the init context.
-
-	//fmt.Println("22222")
-
 	vuImpl := &moduleVUImpl{runtime: goja.New()}
 	init := newBoundInitContext(b.BaseInitContext, vuImpl)
 	if err := b.instantiate(logger, vuImpl.runtime, init, vuID); err != nil {
@@ -263,8 +257,8 @@ func (b *Bundle) Instantiate(logger logrus.FieldLogger, vuID uint64) (*BundleIns
 		Runtime:      rt,
 		exports:      make(map[string]goja.Callable),
 		env:          b.RuntimeOptions.Env,
-		ModuleVUImpl: vuImpl,
-		Pgm:          pgm,
+		moduleVUImpl: vuImpl,
+		pgm:          pgm,
 	}
 
 	// Grab any exported functions that could be executed. These were
@@ -296,6 +290,9 @@ func (b *Bundle) Instantiate(logger logrus.FieldLogger, vuID uint64) (*BundleIns
 
 	return bi, instErr
 }
+func (b *Bundle) Set(key string, value any) {
+	b.Vm.Set(key, value)
+}
 
 // Instantiates the bundle into an existing runtime. Not public because it also messes with a bunch
 // of other things, will potentially thrash data and makes a mess in it if the operation fails.
@@ -304,42 +301,17 @@ func (b *Bundle) initializeProgramObject(rt *goja.Runtime, init *InitContext) pr
 	pgm := programWithSource{
 		pgm:     b.Program,
 		src:     b.Source,
-		Exports: rt.NewObject(),
+		exports: rt.NewObject(),
 		module:  rt.NewObject(),
 	}
-	_ = pgm.module.Set("exports", pgm.Exports)
+	_ = pgm.module.Set("exports", pgm.exports)
 	init.programs[b.Filename.String()] = pgm
 	return pgm
 }
-func (b *Bundle) Set(key string, value any) {
-	b.Vm.Set(key, value)
-}
+
 func (b *Bundle) instantiate(logger logrus.FieldLogger, rt *goja.Runtime, init *InitContext, vuID uint64) (err error) {
 	rt.SetFieldNameMapper(common.FieldNameMapper{})
 	rt.SetRandSource(common.NewRandSource())
-	genv := make(map[string]any, len(b.RuntimeOptions.Genv))
-	for key, value := range b.RuntimeOptions.Genv {
-		genv[key] = value
-		rt.Set(key, value)
-		//fmt.Println(key, value)
-	}
-	//tae := rt.NewObject()
-	//
-	//tae.Set("sma", fta.SMA)
-	//tae.Set("ema", fta.EMA)
-	//tae.Set("wma", fta.WMA)
-	//tae.Set("hma", fta.HMA)
-	//tae.Set("boll", fta.BBANDS)
-	//tae.Set("roc", fta.ROC)
-	//tae.Set("rsi", fta.RSI)
-	//tae.Set("sar", fta.PSAR)
-	//
-	//rt.Set("ta", tae)
-	//
-	//tart1 := rt.NewObject()
-	//
-	//tart1.Set("newsma", tart.NewSma)
-	//rt.Set("tart", tart1)
 
 	env := make(map[string]string, len(b.RuntimeOptions.Env))
 	for key, value := range b.RuntimeOptions.Env {
@@ -360,7 +332,7 @@ func (b *Bundle) instantiate(logger logrus.FieldLogger, rt *goja.Runtime, init *
 		Registry:    b.registry,
 	}
 	unbindInit := b.setInitGlobals(rt, init)
-	init.moduleVUImpl.Ctx = context.Background()
+	init.moduleVUImpl.ctx = context.Background()
 	init.moduleVUImpl.initEnv = initenv
 	init.moduleVUImpl.eventLoop = eventloop.New(init.moduleVUImpl)
 	pgm := b.initializeProgramObject(rt, init)
@@ -372,7 +344,7 @@ func (b *Bundle) instantiate(logger logrus.FieldLogger, rt *goja.Runtime, init *
 				return errRun
 			}
 			if call, ok := goja.AssertFunction(f); ok {
-				if _, errRun = call(pgm.Exports, pgm.module, pgm.Exports); errRun != nil {
+				if _, errRun = call(pgm.exports, pgm.module, pgm.exports); errRun != nil {
 					return errRun
 				}
 				return nil
@@ -392,10 +364,10 @@ func (b *Bundle) instantiate(logger logrus.FieldLogger, rt *goja.Runtime, init *
 	if goja.IsNull(exportsV) {
 		return errors.New("exports must be an object")
 	}
-	pgm.Exports = exportsV.ToObject(rt)
+	pgm.exports = exportsV.ToObject(rt)
 	init.programs[b.Filename.String()] = pgm
 	unbindInit()
-	init.moduleVUImpl.Ctx = nil
+	init.moduleVUImpl.ctx = nil
 	init.moduleVUImpl.initEnv = nil
 
 	// If we've already initialized the original VU init context, forbid

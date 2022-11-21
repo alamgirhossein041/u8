@@ -44,7 +44,7 @@ func (oi *outputIngester) Start() error {
 func (oi *outputIngester) Stop() error {
 	oi.logger.Debug("Stopping...")
 	defer oi.logger.Debug("Stopped!")
-	//oi.periodicFlusher.Stop()
+	oi.periodicFlusher.Stop()
 	return nil
 }
 

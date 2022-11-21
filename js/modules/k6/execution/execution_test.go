@@ -22,6 +22,7 @@ import (
 	"github.com/uvite/u8/lib/testutils"
 	"github.com/uvite/u8/lib/types"
 	"github.com/uvite/u8/metrics"
+	"gopkg.in/guregu/null.v3"
 )
 
 func setupTagsExecEnv(t *testing.T) *modulestest.Runtime {

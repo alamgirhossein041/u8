@@ -25,7 +25,7 @@ type programWithSource struct {
 	pgm     *goja.Program
 	src     string
 	module  *goja.Object
-	Exports *goja.Object
+	exports *goja.Object
 }
 
 const openCantBeUsedOutsideInitContextMsg = `The "open()" function is only available in the init stage ` +
@@ -68,7 +68,7 @@ func NewInitContext(
 		logger:            logger,
 		modules:           getJSModules(),
 		moduleVUImpl: &moduleVUImpl{
-			Ctx:     context.Background(),
+			ctx:     context.Background(),
 			runtime: rt,
 		},
 	}

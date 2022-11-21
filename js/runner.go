@@ -45,7 +45,7 @@ var nameToCertWarning sync.Once
 
 type Runner struct {
 	Bundle       *Bundle
-	preInitState *lib.InitState
+	preInitState *lib.TestPreInitState
 	defaultGroup *lib.Group
 
 	BaseDialer net.Dialer
@@ -60,7 +60,7 @@ type Runner struct {
 }
 
 // New returns a new Runner for the provided source
-func New(piState *lib.InitState, src *loader.SourceData, filesystems map[string]afero.Fs) (*Runner, error) {
+func New(piState *lib.TestPreInitState, src *loader.SourceData, filesystems map[string]afero.Fs) (*Runner, error) {
 	bundle, err := NewBundle(piState, src, filesystems)
 	if err != nil {
 		return nil, err
@@ -70,7 +70,7 @@ func New(piState *lib.InitState, src *loader.SourceData, filesystems map[string]
 }
 
 // NewFromArchive returns a new Runner from the source in the provided archive
-func NewFromArchive(piState *lib.InitState, arc *lib.Archive) (*Runner, error) {
+func NewFromArchive(piState *lib.TestPreInitState, arc *lib.Archive) (*Runner, error) {
 	bundle, err := NewBundleFromArchive(piState, arc)
 	if err != nil {
 		return nil, err
@@ -80,7 +80,7 @@ func NewFromArchive(piState *lib.InitState, arc *lib.Archive) (*Runner, error) {
 }
 
 // NewFromBundle returns a new Runner from the provided Bundle
-func NewFromBundle(piState *lib.InitState, b *Bundle) (*Runner, error) {
+func NewFromBundle(piState *lib.TestPreInitState, b *Bundle) (*Runner, error) {
 	defaultGroup, err := lib.NewGroup("", nil)
 	if err != nil {
 		return nil, err
@@ -113,7 +113,6 @@ func (r *Runner) MakeArchive() *lib.Archive {
 
 // NewVU returns a new initialized VU.
 func (r *Runner) NewVU(idLocal, idGlobal uint64, samplesOut chan<- metrics.SampleContainer) (lib.InitializedVU, error) {
-
 	vu, err := r.newVU(idLocal, idGlobal, samplesOut)
 	if err != nil {
 		return nil, err
@@ -124,11 +123,8 @@ func (r *Runner) NewVU(idLocal, idGlobal uint64, samplesOut chan<- metrics.Sampl
 //nolint:funlen
 func (r *Runner) newVU(idLocal, idGlobal uint64, samplesOut chan<- metrics.SampleContainer) (*VU, error) {
 	// Instantiate a new bundle, make a VU out of it.
-
 	bi, err := r.Bundle.Instantiate(r.preInitState.Logger, idLocal)
-
 	if err != nil {
-
 		return nil, err
 	}
 
@@ -246,7 +242,7 @@ func (r *Runner) newVU(idLocal, idGlobal uint64, samplesOut chan<- metrics.Sampl
 		Group:          r.defaultGroup,
 		BuiltinMetrics: r.preInitState.BuiltinMetrics,
 	}
-	vu.ModuleVUImpl.state = vu.state
+	vu.moduleVUImpl.state = vu.state
 	_ = vu.Runtime.Set("console", vu.Console)
 
 	// This is here mostly so if someone tries they get a nice message
@@ -372,7 +368,7 @@ func (r *Runner) HandleSummary(ctx context.Context, summary *lib.Summary) (map[s
 		<-ctx.Done()
 		vu.Runtime.Interrupt(context.Canceled)
 	}()
-	vu.ModuleVUImpl.Ctx = ctx
+	vu.moduleVUImpl.ctx = ctx
 
 	wrapper := strings.Replace(summaryWrapperLambdaCode, "/*JSLIB_SUMMARY_CODE*/", jslibSummaryCode, 1)
 	handleSummaryWrapperRaw, err := vu.Runtime.RunString(wrapper)
@@ -511,7 +507,7 @@ func (r *Runner) runPart(
 		<-ctx.Done()
 		vu.Runtime.Interrupt(context.Canceled)
 	}()
-	vu.ModuleVUImpl.Ctx = ctx
+	vu.moduleVUImpl.ctx = ctx
 
 	group, err := r.GetDefaultGroup().Group(name)
 	if err != nil {
@@ -637,7 +633,7 @@ func (u *VU) Activate(params *lib.VUActivationParams) lib.ActiveVU {
 	})
 
 	ctx := params.RunContext
-	u.ModuleVUImpl.Ctx = ctx
+	u.moduleVUImpl.ctx = ctx
 
 	u.state.GetScenarioVUIter = func() uint64 {
 		return u.scenarioIter[params.Scenario]
@@ -702,14 +698,12 @@ func (u *ActiveVU) RunOnce() error {
 			u.setupData = goja.Undefined()
 		}
 	}
-	fmt.Println(4444)
 
-	fn := u.GetCallableExport(u.Exec)
+	fn := u.getCallableExport(u.Exec)
 	if fn == nil {
 		// Shouldn't happen; this is validated in cmd.validateScenarioConfig()
 		panic(fmt.Sprintf("function '%s' not found in exports", u.Exec))
 	}
-	fmt.Println(5555)
 
 	u.incrIteration()
 	if err := u.Runtime.Set("__ITER", u.iteration); err != nil {
@@ -718,7 +712,7 @@ func (u *ActiveVU) RunOnce() error {
 
 	ctx, cancel := context.WithCancel(u.RunContext)
 	defer cancel()
-	u.ModuleVUImpl.Ctx = ctx
+	u.moduleVUImpl.ctx = ctx
 	// Call the exported function.
 	_, isFullIteration, totalTime, err := u.runFn(ctx, true, fn, cancel, u.setupData)
 	if err != nil {
@@ -747,7 +741,7 @@ func (u *ActiveVU) RunOnce() error {
 }
 
 func (u *VU) getExported(name string) goja.Value {
-	return u.BundleInstance.GetExported(name)
+	return u.BundleInstance.getExported(name)
 }
 
 // if isDefault is true, cancel also needs to be provided and it should cancel the provided context
@@ -772,16 +766,15 @@ func (u *VU) runFn(
 
 	startTime := time.Now()
 
-	if u.ModuleVUImpl.eventLoop == nil {
-		u.ModuleVUImpl.eventLoop = eventloop.New(u.ModuleVUImpl)
+	if u.moduleVUImpl.eventLoop == nil {
+		u.moduleVUImpl.eventLoop = eventloop.New(u.moduleVUImpl)
 	}
 	err = common.RunWithPanicCatching(u.state.Logger, u.Runtime, func() error {
-		return u.ModuleVUImpl.eventLoop.Start(func() (err error) {
+		return u.moduleVUImpl.eventLoop.Start(func() (err error) {
 			v, err = fn(goja.Undefined(), args...) // Actually run the JS script
 			return err
 		})
 	})
-	fmt.Println(5555)
 
 	select {
 	case <-ctx.Done():
@@ -792,7 +785,7 @@ func (u *VU) runFn(
 
 	if cancel != nil {
 		cancel()
-		u.ModuleVUImpl.eventLoop.WaitOnRegistered()
+		u.moduleVUImpl.eventLoop.WaitOnRegistered()
 	}
 	endTime := time.Now()
 	var exception *goja.Exception

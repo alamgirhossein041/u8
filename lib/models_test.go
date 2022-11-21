@@ -7,6 +7,8 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
+	"gopkg.in/guregu/null.v3"
+
 	"github.com/uvite/u8/lib/types"
 )
 

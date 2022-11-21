@@ -11,6 +11,8 @@ import (
 	"github.com/spf13/afero"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"gopkg.in/guregu/null.v3"
+
 	"github.com/uvite/u8/js"
 	"github.com/uvite/u8/js/modules"
 	"github.com/uvite/u8/lib"

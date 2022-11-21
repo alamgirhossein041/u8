@@ -10,16 +10,15 @@ import (
 )
 
 type moduleVUImpl struct {
-	Ctx       context.Context
+	ctx       context.Context
 	initEnv   *common.InitEnvironment
 	state     *lib.State
-	Status    *lib.State
 	runtime   *goja.Runtime
 	eventLoop *eventloop.EventLoop
 }
 
 func (m *moduleVUImpl) Context() context.Context {
-	return m.Ctx
+	return m.ctx
 }
 
 func (m *moduleVUImpl) InitEnv() *common.InitEnvironment {

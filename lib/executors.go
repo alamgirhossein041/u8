@@ -12,6 +12,7 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/uvite/u8/metrics"
+	"github.com/uvite/u8/ui/pb"
 )
 
 // TODO: remove globals and use some type of explicit dependency injection?
@@ -104,7 +105,7 @@ type InitVUFunc func(context.Context, *logrus.Entry) (InitializedVU, error)
 // Executor is the interface all executors should implement
 type Executor interface {
 	GetConfig() ExecutorConfig
-	//GetProgress() *pb.ProgressBar
+	GetProgress() *pb.ProgressBar
 	GetLogger() *logrus.Entry
 
 	Init(ctx context.Context) error

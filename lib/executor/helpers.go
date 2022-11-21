@@ -12,6 +12,7 @@ import (
 	"github.com/uvite/u8/errext"
 	"github.com/uvite/u8/lib"
 	"github.com/uvite/u8/lib/types"
+	"github.com/uvite/u8/ui/pb"
 )
 
 func sumStagesDuration(stages []Stage) (result time.Duration) {
@@ -200,35 +201,35 @@ func trackProgress(
 	parentCtx, maxDurationCtx, regDurationCtx context.Context,
 	exec lib.Executor, snapshot func() (float64, []string),
 ) {
-	//progressBar := exec.GetProgress()
-	//logger := exec.GetLogger()
-	//
-	//<-regDurationCtx.Done() // Wait for the regular context to be over
-	//gracefulStop := exec.GetConfig().GetGracefulStop()
-	//if parentCtx.Err() == nil && gracefulStop > 0 {
-	//	p, right := snapshot()
-	//	logger.WithField("gracefulStop", gracefulStop).Debug(
-	//		"Regular duration is done, waiting for iterations to gracefully finish",
-	//	)
-	//	progressBar.Modify(
-	//		pb.WithStatus(pb.Stopping),
-	//		pb.WithConstProgress(p, right...),
-	//	)
-	//}
-	//
-	//<-maxDurationCtx.Done()
-	////	p, right := snapshot()
-	////constProg := pb.WithConstProgress(p, right...)
-	//select {
-	//case <-parentCtx.Done():
-	//	//progressBar.Modify(pb.WithStatus(pb.Interrupted), constProg)
-	//default:
-	//	//status := pb.WithStatus(pb.Done)
-	//	//if p < 1 {
-	//	//	status = pb.WithStatus(pb.Interrupted)
-	//	//}
-	//	//progressBar.Modify(status, constProg)
-	//}
+	progressBar := exec.GetProgress()
+	logger := exec.GetLogger()
+
+	<-regDurationCtx.Done() // Wait for the regular context to be over
+	gracefulStop := exec.GetConfig().GetGracefulStop()
+	if parentCtx.Err() == nil && gracefulStop > 0 {
+		p, right := snapshot()
+		logger.WithField("gracefulStop", gracefulStop).Debug(
+			"Regular duration is done, waiting for iterations to gracefully finish",
+		)
+		progressBar.Modify(
+			pb.WithStatus(pb.Stopping),
+			pb.WithConstProgress(p, right...),
+		)
+	}
+
+	<-maxDurationCtx.Done()
+	p, right := snapshot()
+	constProg := pb.WithConstProgress(p, right...)
+	select {
+	case <-parentCtx.Done():
+		progressBar.Modify(pb.WithStatus(pb.Interrupted), constProg)
+	default:
+		status := pb.WithStatus(pb.Done)
+		if p < 1 {
+			status = pb.WithStatus(pb.Interrupted)
+		}
+		progressBar.Modify(status, constProg)
+	}
 }
 
 // getScaledArrivalRate returns a rational number containing the scaled value of

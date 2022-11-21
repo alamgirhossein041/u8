@@ -8,9 +8,12 @@ import (
 	"time"
 
 	"github.com/sirupsen/logrus"
+	"gopkg.in/guregu/null.v3"
+
 	"github.com/uvite/u8/lib"
 	"github.com/uvite/u8/lib/types"
 	"github.com/uvite/u8/metrics"
+	"github.com/uvite/u8/ui/pb"
 )
 
 const sharedIterationsType = "shared-iterations"
@@ -181,12 +184,31 @@ func (si SharedIterations) Run(parentCtx context.Context, out chan<- metrics.Sam
 
 	totalIters := uint64(iterations)
 	doneIters := new(uint64)
+	vusFmt := pb.GetFixedLengthIntFormat(numVUs)
+	itersFmt := pb.GetFixedLengthIntFormat(int64(totalIters))
+	progressFn := func() (float64, []string) {
+		spent := time.Since(startTime)
+		progVUs := fmt.Sprintf(vusFmt+" VUs", numVUs)
+		currentDoneIters := atomic.LoadUint64(doneIters)
+		progIters := fmt.Sprintf(itersFmt+"/"+itersFmt+" shared iters",
+			currentDoneIters, totalIters)
+		spentDuration := pb.GetFixedLengthDuration(spent, duration)
+		progDur := fmt.Sprintf("%s/%s", spentDuration, duration)
+		right := []string{progVUs, progDur, progIters}
 
+		return float64(currentDoneIters) / float64(totalIters), right
+	}
+	si.progress.Modify(pb.WithProgress(progressFn))
 	maxDurationCtx = lib.WithScenarioState(maxDurationCtx, &lib.ScenarioState{
-		Name:      si.config.Name,
-		Executor:  si.config.Type,
-		StartTime: startTime,
+		Name:       si.config.Name,
+		Executor:   si.config.Type,
+		StartTime:  startTime,
+		ProgressFn: progressFn,
 	})
+	go func() {
+		trackProgress(parentCtx, maxDurationCtx, regDurationCtx, &si, progressFn)
+		close(waitOnProgressChannel)
+	}()
 
 	var attemptedIters uint64
 

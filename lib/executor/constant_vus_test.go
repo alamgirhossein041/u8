@@ -2,13 +2,14 @@ package executor
 
 import (
 	"context"
-	"gopkg.in/guregu/null.v3"
 	"sync"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"gopkg.in/guregu/null.v3"
+
 	"github.com/uvite/u8/lib"
 	"github.com/uvite/u8/lib/types"
 )

@@ -4,14 +4,18 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"math"
 	"sync"
 	"sync/atomic"
 	"time"
 
 	"github.com/sirupsen/logrus"
+	"gopkg.in/guregu/null.v3"
+
 	"github.com/uvite/u8/lib"
 	"github.com/uvite/u8/lib/types"
 	"github.com/uvite/u8/metrics"
+	"github.com/uvite/u8/ui/pb"
 )
 
 const externallyControlledType = "externally-controlled"
@@ -206,6 +210,13 @@ func (mex *ExternallyControlled) GetConfig() lib.ExecutorConfig {
 	return mex.GetCurrentConfig()
 }
 
+// GetProgress just returns the executor's progress bar instance.
+func (mex ExternallyControlled) GetProgress() *pb.ProgressBar {
+	mex.configLock.RLock()
+	defer mex.configLock.RUnlock()
+	return mex.progress
+}
+
 // GetLogger just returns the executor's logger instance.
 func (mex ExternallyControlled) GetLogger() *logrus.Entry {
 	mex.configLock.RLock()
@@ -372,6 +383,34 @@ func (rs *externallyControlledRunState) retrieveStartMaxVUs() error {
 	return nil
 }
 
+func (rs *externallyControlledRunState) progressFn() (float64, []string) {
+	// TODO: simulate spinner for the other case or cycle 0-100?
+	currentActiveVUs := atomic.LoadInt64(rs.activeVUsCount)
+	currentMaxVUs := atomic.LoadInt64(rs.maxVUs)
+	vusFmt := pb.GetFixedLengthIntFormat(currentMaxVUs)
+	progVUs := fmt.Sprintf(vusFmt+"/"+vusFmt+" VUs", currentActiveVUs, currentMaxVUs)
+
+	right := []string{progVUs, rs.duration.String(), ""}
+
+	// TODO: use a saner way to calculate the elapsed time, without relying on
+	// the global execution state...
+	elapsed := rs.executor.executionState.GetCurrentTestRunDuration() - rs.executor.config.StartTime.TimeDuration()
+	if elapsed > rs.duration {
+		return 1, right
+	}
+
+	progress := 0.0
+	if rs.duration > 0 {
+		progress = math.Min(1, float64(elapsed)/float64(rs.duration))
+	}
+
+	spentDuration := pb.GetFixedLengthDuration(elapsed, rs.duration)
+	progDur := fmt.Sprintf("%s/%s", spentDuration, rs.duration)
+	right[1] = progDur
+
+	return progress, right
+}
+
 func (rs *externallyControlledRunState) handleConfigChange(oldCfg, newCfg ExternallyControlledConfigParams) error {
 	executionState := rs.executor.executionState
 	et := executionState.ExecutionTuple
@@ -486,11 +525,18 @@ func (mex *ExternallyControlled) Run(parentCtx context.Context, out chan<- metri
 		maxVUs:          new(int64),
 		runIteration:    getIterationRunner(mex.executionState, mex.logger),
 	}
+	ss.ProgressFn = runState.progressFn
 
 	*runState.maxVUs = startMaxVUs
 	if err = runState.retrieveStartMaxVUs(); err != nil {
 		return err
 	}
+
+	mex.progress.Modify(pb.WithProgress(runState.progressFn)) // Keep track of the progress
+	go func() {
+		trackProgress(parentCtx, ctx, ctx, mex, runState.progressFn)
+		close(waitOnProgressChannel)
+	}()
 
 	err = runState.handleConfigChange( // Start by setting MaxVUs to the starting MaxVUs
 		ExternallyControlledConfigParams{MaxVUs: mex.config.MaxVUs}, currentControlConfig,

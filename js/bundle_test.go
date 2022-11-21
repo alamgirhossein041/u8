@@ -3,7 +3,6 @@ package js
 import (
 	"crypto/tls"
 	"fmt"
-	"gopkg.in/guregu/null.v3"
 	"io/ioutil"
 	"net/url"
 	"os"
@@ -18,6 +17,8 @@ import (
 	"github.com/spf13/afero"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"gopkg.in/guregu/null.v3"
+
 	"github.com/uvite/u8/lib"
 	"github.com/uvite/u8/lib/consts"
 	"github.com/uvite/u8/lib/fsext"
@@ -477,7 +478,7 @@ func TestNewBundleFromArchive(t *testing.T) {
 		require.Equal(t, lib.Options{VUs: null.IntFrom(12345)}, b.Options)
 		bi, err := b.Instantiate(logger, 0)
 		require.NoError(t, err)
-		val, err := bi.GetCallableExport(consts.DefaultFn)(goja.Undefined())
+		val, err := bi.getCallableExport(consts.DefaultFn)(goja.Undefined())
 		require.NoError(t, err)
 		require.Equal(t, "hi!", val.Export())
 	}
@@ -570,8 +571,7 @@ func TestNewBundleFromArchive(t *testing.T) {
 		require.NoError(t, err)
 		bi, err := b.Instantiate(logger, 0)
 		require.NoError(t, err)
-
-		val, err := bi.GetCallableExport(consts.DefaultFn)(goja.Undefined())
+		val, err := bi.getCallableExport(consts.DefaultFn)(goja.Undefined())
 		require.NoError(t, err)
 		require.Equal(t, int64(999), val.Export())
 	})
@@ -715,7 +715,7 @@ func TestOpen(t *testing.T) {
 						t.Run(source, func(t *testing.T) {
 							bi, err := b.Instantiate(logger, 0)
 							require.NoError(t, err)
-							v, err := bi.GetCallableExport(consts.DefaultFn)(goja.Undefined())
+							v, err := bi.getCallableExport(consts.DefaultFn)(goja.Undefined())
 							require.NoError(t, err)
 							require.Equal(t, "hi", v.Export())
 						})
@@ -751,7 +751,7 @@ func TestBundleInstantiate(t *testing.T) {
 
 		bi, err := b.Instantiate(logger, 0)
 		require.NoError(t, err)
-		v, err := bi.GetCallableExport(consts.DefaultFn)(goja.Undefined())
+		v, err := bi.getCallableExport(consts.DefaultFn)(goja.Undefined())
 		require.NoError(t, err)
 		require.Equal(t, true, v.Export())
 	})
@@ -819,7 +819,7 @@ func TestBundleEnv(t *testing.T) {
 
 			bi, err := b.Instantiate(logger, 0)
 			require.NoError(t, err)
-			_, err = bi.GetCallableExport(consts.DefaultFn)(goja.Undefined())
+			_, err = bi.getCallableExport(consts.DefaultFn)(goja.Undefined())
 			require.NoError(t, err)
 		})
 	}
@@ -857,7 +857,7 @@ func TestBundleNotSharable(t *testing.T) {
 				require.NoError(t, err)
 				for j := 0; j < iters; j++ {
 					bi.Runtime.Set("__ITER", j)
-					_, err := bi.GetCallableExport(consts.DefaultFn)(goja.Undefined())
+					_, err := bi.getCallableExport(consts.DefaultFn)(goja.Undefined())
 					require.NoError(t, err)
 				}
 			}
