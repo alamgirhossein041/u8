@@ -19,7 +19,6 @@ import (
 	"syscall"
 	"testing"
 	"time"
-	_ "xk6-nats"
 )
 
 var (

@@ -10,6 +10,7 @@ import (
 	"github.com/uvite/u8/lib"
 	"github.com/uvite/u8/loader"
 	"github.com/uvite/u8/metrics"
+	_ "github.com/uvite/u8/plugin/xk6-nats"
 	_ "github.com/uvite/u8/plugin/xk6-ta"
 	"github.com/uvite/u8/pmkoo/genv"
 	"github.com/uvite/u8/tart/fixedpoint"
@@ -20,7 +21,6 @@ import (
 	"syscall"
 	"testing"
 	"time"
-	_ "xk6-nats"
 )
 
 var (

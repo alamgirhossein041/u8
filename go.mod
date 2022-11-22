@@ -50,7 +50,7 @@ require (
 	google.golang.org/protobuf v1.28.1
 	gopkg.in/guregu/null.v3 v3.5.0
 	gopkg.in/yaml.v3 v3.0.1
-	xk6-nats v0.0.0-00010101000000-000000000000
+
 )
 
 require (
@@ -101,4 +101,4 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
 
-replace xk6-nats => ./plugin/xk6-nats/
+
