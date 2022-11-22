@@ -12,7 +12,6 @@ import (
 	"github.com/uvite/u8/js/modules/k6/html"
 	"github.com/uvite/u8/js/modules/k6/http"
 	"github.com/uvite/u8/js/modules/k6/metrics"
-	"github.com/uvite/u8/js/modules/k6/ta"
 	"github.com/uvite/u8/js/modules/k6/ws"
 
 	"github.com/grafana/xk6-redis/redis"
@@ -22,8 +21,8 @@ import (
 
 func getInternalJSModules() map[string]interface{} {
 	return map[string]interface{}{
-		"k6":                         k6.New(),
-		"k6/ta":                      ta.New(),
+		"k6": k6.New(),
+		//"k6/ta":                      ta.New(),
 		"k6/crypto":                  crypto.New(),
 		"k6/crypto/x509":             x509.New(),
 		"k6/data":                    data.New(),

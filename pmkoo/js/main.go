@@ -10,6 +10,7 @@ import (
 	"github.com/uvite/u8/lib"
 	"github.com/uvite/u8/loader"
 	"github.com/uvite/u8/metrics"
+	_ "github.com/uvite/u8/plugin/xk6-ta"
 	"github.com/uvite/u8/pmkoo/genv"
 	"github.com/uvite/u8/tart/fixedpoint"
 	"github.com/uvite/u8/tart/floats"
@@ -25,7 +26,7 @@ import (
 var (
 	apiKey    = "your api key"
 	secretKey = "your secret key"
-	interval  = "3m"
+	interval  = "1m"
 	symbol    = "ETHUSDT"
 )
 var (
@@ -42,7 +43,7 @@ func main() {
 	fs := afero.NewOsFs()
 	pwd, err := os.Getwd()
 	logger := logrus.New()
-	sourceData, err := loader.ReadSource(logger, "./jma.js", pwd, map[string]afero.Fs{"file": fs}, nil)
+	sourceData, err := loader.ReadSource(logger, "./test.js", pwd, map[string]afero.Fs{"file": fs}, nil)
 
 	//closes := &floats.Slice{}
 	//high := &floats.Slice{}
@@ -62,22 +63,25 @@ func main() {
 			`, sourceData.Data), fs, rtOpts)
 
 	fmt.Println(err)
+
 	ch := make(chan metrics.SampleContainer, 100)
-	defer close(ch)
-	go func() { // read the channel so it doesn't block
-		for range ch {
-		}
-	}()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	err = r.Setup(ctx, ch)
+	cancel()
+
 	initVU, err := r.NewVU(1, 1, ch)
 
-	ctx, cancel := context.WithCancel(context.Background())
+	ctx, cancel = context.WithCancel(context.Background())
 	defer cancel()
 	vu := initVU.Activate(&lib.VUActivationParams{RunContext: ctx})
 
 	go func() {
 		kline(r, vu)
 	}()
+
 	WaitForSignal(ctx, syscall.SIGINT, syscall.SIGTERM)
+
 	//for i := 0; i < 5; i++ {
 	//err = vu.RunOnce()
 	//fmt.Println(err)
@@ -163,15 +167,20 @@ func WaitForSignal(ctx context.Context, signals ...os.Signal) os.Signal {
 func kline(rt *js.Runner, vu lib.ActiveVU) {
 
 	//logger := logrus.New()
-
+	strategy := genv.NewStragegy()
 	closes := &floats.Slice{}
 	high := &floats.Slice{}
 	//b.Set("high", high)
-
 	low := &floats.Slice{}
-	rt.Bundle.Set("close", closes)
-	rt.Bundle.Set("high", high)
-	rt.Bundle.Set("low", low)
+	rt.Bundle.Vm.Set("close", closes)
+	rt.Bundle.Vm.Set("high", high)
+	rt.Bundle.Vm.Set("low", low)
+
+	strategy.Close(closes)
+
+	//fmt.Println(strategy.GetSMA(), "strategy.GetSMA()")
+
+	rt.Bundle.Set("strategy", &strategy)
 	//b.Set("low", low)
 	//rtOpts := lib.RuntimeOptions{Genv: map[string]any{
 	//	"close": close,
@@ -211,26 +220,19 @@ func kline(rt *js.Runner, vu lib.ActiveVU) {
 	//	}
 	//}
 
-	err = vu.RunOnce()
-	fmt.Println(err)
+	fmt.Println("run once")
 	wsKlineHandler := func(event *binance.WsKlineEvent) {
+		//fmt.Println("kline =======", event)
+		closes.Push(fixedpoint.MustNewFromString(event.Kline.Close).Float64())
 
 		if event.Kline.IsFinal {
-
-			closes.Push(fixedpoint.MustNewFromString(event.Kline.Close).Float64())
+			//fmt.Println("kline =======")
 			high.Push(fixedpoint.MustNewFromString(event.Kline.High).Float64())
 			low.Push(fixedpoint.MustNewFromString(event.Kline.Low).Float64())
 
-			//if call, ok := goja.AssertFunction(exports.Get("default")); ok {
-			//	if _, err = call(goja.Undefined()); err != nil {
-			//
-			//	}
-			//}
-			err = vu.RunOnce()
-			fmt.Println(err)
-
 		}
 	}
+
 	errHandler := func(err error) {
 		fmt.Println(err)
 	}
@@ -239,6 +241,8 @@ func kline(rt *js.Runner, vu lib.ActiveVU) {
 		fmt.Println(err)
 		return
 	}
+	err = vu.RunOnce()
+	fmt.Println(err)
 	<-doneC
 
 }

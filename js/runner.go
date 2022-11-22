@@ -117,6 +117,7 @@ func (r *Runner) NewVU(idLocal, idGlobal uint64, samplesOut chan<- metrics.Sampl
 	if err != nil {
 		return nil, err
 	}
+
 	return lib.InitializedVU(vu), nil
 }
 
@@ -278,6 +279,8 @@ func (r *Runner) Setup(ctx context.Context, out chan<- metrics.SampleContainer) 
 	defer setupCancel()
 
 	v, err := r.runPart(setupCtx, out, consts.SetupFn, nil)
+
+	//fmt.Println(err, "runpart")
 	if err != nil {
 		return err
 	}
